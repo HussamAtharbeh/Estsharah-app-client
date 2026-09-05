@@ -1,12 +1,14 @@
-
+import { BrowserRouter } from 'react-router-dom';
+import { Navbar } from "./components/shared/Navbar";
+import { AppRoutes } from "./routes/AppRoutes";
 
 function App() {
-
   return (
-    <>
-      <h1>hi man</h1>
-    </>
-  )
+    <BrowserRouter>
+      <Navbar />
+      <AppRoutes />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

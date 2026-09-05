@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-layout {
+  display: flex;
+  min-height: 100vh;
+  direction: rtl;
+  background-color: #fafafa;
+  font-family: 'Cairo', sans-serif; 
+}
+
+.signup-form-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+}
+
+.signup-container {
+  width: 100%;
+  max-width: 580px;
+  animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.signup-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.signup-logo:hover .logo-icon {
+  transform: scale(1.08) rotate(3deg);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+.signup-logo .logo-icon {
+  background: linear-gradient(135deg, #d4af5a, #b8963a);
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+.signup-logo .logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-logo .logo-text-ar {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0B1320;
+  line-height: 1.2;
+}
+
+.signup-logo .logo-text-en {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #C9A86A;
+  letter-spacing: 4px;
+}
+
+.signup-header {
+  text-align: right;
+  margin-bottom: 2.5rem;
+}
+
+.signup-header h1 {
+  font-size: 2.2rem;
+  color: #0B1320;
+  margin-bottom: 0.6rem;
+  font-weight: 800;
+}
+
+.signup-header p {
+  color: #94a3b8;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.roles-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.role-card {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 24px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+}
+
+.role-card:hover {
+  border-color: transparent;
+  transform: translateY(-10px);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.06), 
+    0 0 0 2px rgba(201, 168, 106, 0.15);
+}
+
+.role-icon-wrapper {
+  width: 76px;
+  height: 76px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.8rem;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+.gold-bg {
+  background: linear-gradient(135deg, #d4af5a, #b8963a);
+  box-shadow: 0 10px 25px rgba(201, 168, 106, 0.25);
+}
+
+.blue-bg {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
+}
+
+.role-card:hover .gold-bg {
+  transform: scale(1.1) translateY(-4px);
+  box-shadow: 0 15px 35px rgba(201, 168, 106, 0.45);
+}
+
+.role-card:hover .blue-bg {
+  transform: scale(1.1) translateY(-4px);
+  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.45);
+}
+
+.role-card h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 0.8rem;
+  transition: color 0.3s ease;
+}
+
+.role-card:hover h3 {
+  color: #C9A86A;
+}
+
+.role-card p {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.7;
+  font-weight: 600;
+  padding: 0 0.5rem;
+}
+
+.signin-prompt {
+  text-align: center;
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.signin-prompt a {
+  color: #C9A86A;
+  text-decoration: none;
+  font-weight: 800;
+  margin-right: 0.4rem;
+  transition: color 0.3s ease;
+}
+
+.signin-prompt a:hover {
+  color: #b59152;
+}
+
+.signup-image-section {
+  flex: 1;
+  background-color: #0f172a;
+  background-image: 
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.85)),
+    url('../../../assets/images/signUp.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 4rem 3rem;
+}
+
+.signup-logo-overlay {
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.logo-icon-overlay {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text-overlay {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.overlay-content {
+  color: white;
+  max-width: 520px;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.overlay-content h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 2rem;
+}
+
+.features-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.check-icon {
+  color: #C9A86A;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .signup-image-section {
+    display: none;
+  }
+  .roles-container {
+    flex-direction: column;
+  }
+}
