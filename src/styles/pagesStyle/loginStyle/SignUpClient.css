@@ -96,8 +96,26 @@
   font-family: 'Cairo', sans-serif;
   font-size: 0.9rem;
   color: #334155;
-  direction: rtl;
-  text-align: right;
+}
+
+.client-signup-form .input-wrapper input[dir="rtl"] {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.client-signup-form .input-wrapper input[dir="ltr"] {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.client-signup-form .input-wrapper input[dir="rtl"]::placeholder {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.client-signup-form .input-wrapper input[dir="ltr"]::placeholder {
+  direction: ltr !important;
+  text-align: left !important;
 }
 
 .client-signup-form .input-wrapper input::placeholder {
