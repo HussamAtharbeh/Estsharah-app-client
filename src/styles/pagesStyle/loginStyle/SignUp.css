@@ -22,16 +22,22 @@
   background: #fafafa;
   font-family: 'Cairo', sans-serif;
 }
-
 .signup-form-section {
   flex: 1;
+  min-height: 100vh;
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 2rem 3rem;
+  align-items: flex-start;
+  padding: 3.5rem 3rem;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.signup-form-section::-webkit-scrollbar {
+  display: none;
 }
 
 .signup-container {
