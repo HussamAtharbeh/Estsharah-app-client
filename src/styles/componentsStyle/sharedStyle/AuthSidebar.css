@@ -1,0 +1,92 @@
+.signup-image-section {
+  flex: 0 0 46%;
+  min-height: 100vh;
+  background-color: #0f172a;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.2),
+      rgba(15, 23, 42, 0.85)
+    ),
+    url('../../../assets/images/signUp.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem 2.5rem;
+}
+
+.signup-logo-overlay {
+  position: absolute;
+  top: 2rem;
+  right: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.logo-icon-overlay {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text-overlay {
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.overlay-content {
+  width: 100%;
+  max-width: 560px;
+  color: white;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.overlay-content h2 {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 1.5rem;
+}
+
+.features-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.check-icon {
+  color: #C9A86A;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .signup-image-section {
+    display: none;
+  }
+}

@@ -20,7 +20,8 @@ const AUTH_LINKS = [
 
 export const Navbar = () => {
   const location = useLocation(); 
-  if (location.pathname === '/signin' || location.pathname === '/signup') {
+  if (location.pathname === '/signin' ||location.pathname==='/signup/client'
+    ||location.pathname==='/signup/lawyer'|| location.pathname === '/signup') {
     return null; 
   }
   return (
