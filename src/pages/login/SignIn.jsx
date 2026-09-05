@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Scale, Mail, Lock } from 'lucide-react';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
@@ -8,10 +8,12 @@ import '../../styles/pagesStyle/loginStyle/SignIn.css';
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const login = async (e) => {
     e.preventDefault();
     console.log("محاولة تسجيل دخول:", { email, password });
+    navigate("/");
   };
 
   return (
@@ -23,7 +25,6 @@ const SignIn = () => {
             <div className="logo-icon">
               <Scale size={28} color="white" />
             </div>
-
             <div className="logo-text">
               <span className="logo-text-ar">استشارة</span>
               <span className="logo-text-en">ISTISHARA</span>
@@ -45,6 +46,7 @@ const SignIn = () => {
               icon={Mail}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
 
             <Input
@@ -55,6 +57,7 @@ const SignIn = () => {
               icon={Lock}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
 
             <div className="form-options">
@@ -63,10 +66,7 @@ const SignIn = () => {
                 <span>تذكرني</span>
               </label>
 
-              <Link
-                to="/forgot-password"
-                className="forgot-link"
-              >
+              <Link to="/forgot-password" className="forgot-link">
                 نسيت كلمة المرور؟
               </Link>
             </div>
@@ -101,7 +101,6 @@ const SignIn = () => {
             <div className="author-avatar">
               ف
             </div>
-
             <div className="author-text">
               <h4>فاطمة العلي</h4>
               <span>عميلة منذ 2026</span>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Scale, User, CheckCircle2,Briefcase } from 'lucide-react';
+import { Scale, User, Briefcase } from 'lucide-react';
+import { AuthSidebar } from '../../components/shared/AuthSidebar';
 import '../../styles/pagesStyle/loginStyle/SignUp.css';
 
 const SignUp = () => {
@@ -34,7 +35,7 @@ const SignUp = () => {
               <p>احصل على استشارات وخدمات قانونية من نخبة المحامين</p>
             </Link>
 
-                       <Link to="/signup/lawyer" className="role-card">
+            <Link to="/signup/lawyer" className="role-card">
               <div className="role-icon-wrapper gold-bg">
                 <Briefcase size={32} color="white" />
               </div>
@@ -50,27 +51,7 @@ const SignUp = () => {
         </div>
       </div>
 
-      <div className="signup-image-section">
-        
-        
-        <div className="overlay-content">
-          <h2>انضم إلى أكبر منصة قانونية رقمية في الشرق الأوسط</h2>
-          <ul className="features-list">
-            <li>
-              <CheckCircle2 size={22} className="check-icon" />
-              <span>أكثر من 500 محامٍ معتمد ومرخص</span>
-            </li>
-            <li>
-              <CheckCircle2 size={22} className="check-icon" />
-              <span>مرخص من نقابة المحامين</span>
-            </li>
-            <li>
-              <CheckCircle2 size={22} className="check-icon" />
-              <span>استجابة سريعة خلال أقل من ساعة</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <AuthSidebar />
 
     </div>
   );
