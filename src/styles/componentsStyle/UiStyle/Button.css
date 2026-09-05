@@ -1,0 +1,25 @@
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #d4af5a, #C9A86A);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 1.1rem;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(201, 168, 106, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+.submit-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(201, 168, 106, 0.35);
+  background: linear-gradient(135deg, #dfbc6b, #d4af5a);
+}
+
+.submit-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(201, 168, 106, 0.2);
+}

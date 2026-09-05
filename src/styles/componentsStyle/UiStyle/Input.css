@@ -1,0 +1,74 @@
+.input-group {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.7rem;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #475569;
+  text-align: right;
+  transition: color 0.3s ease;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 62px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 0 1.2rem;
+  direction: ltr !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+}
+
+.input-wrapper:focus-within {
+  border-color: #C9A86A;
+  box-shadow: 0 10px 25px rgba(201, 168, 106, 0.15), 0 0 0 3px rgba(201, 168, 106, 0.1);
+  transform: translateY(-3px);
+}
+
+.input-group:focus-within label {
+  color: #C9A86A;
+}
+
+.input-wrapper input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.95rem;
+  color: #334155;
+  text-align: left !important;
+  direction: ltr !important;
+}
+
+.input-wrapper input::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.input-wrapper input:focus::placeholder {
+  opacity: 0.5;
+}
+
+.input-icon {
+  color: #cbd5e1;
+  flex-shrink: 0;
+  margin-left: 0.9rem;
+  transition: all 0.4s ease;
+}
+
+.input-wrapper:focus-within .input-icon {
+  color: #C9A86A;
+  transform: scale(1.1);
+}
