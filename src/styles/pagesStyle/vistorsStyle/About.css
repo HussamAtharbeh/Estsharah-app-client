@@ -1,37 +1,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
 
 @keyframes fadeUp {
-  0% { opacity: 0; transform: translateY(40px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scaleIn {
-  0% { opacity: 0; transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .about-page {
+  width: 100%;
+  min-height: 100vh;
   font-family: 'Cairo', sans-serif;
   direction: rtl;
-  background-color: #fafafa;
+  background-color: #FAFAF8;
+  overflow: hidden;
 }
 
 .about-hero {
+  width: 100%;
   background-color: #0B1320;
   padding: 4.5rem 2rem 6rem;
-  text-align: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
-.about-hero .hero-content {
+.about-hero-content {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.hero-subtitle {
+.about-hero-subtitle {
   color: #C9A86A;
   font-size: 0.75rem;
   font-weight: 700;
@@ -41,23 +64,26 @@
   animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.hero-title {
-  color: #ffffff;
+.about-hero-title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   font-size: 2.7rem;
   font-weight: 800;
-  margin: 0 auto 0.7rem;
-  line-height: 1.2;
-  white-space: nowrap;
+  margin: 0 auto 1rem;
+  line-height: 1.4;
   opacity: 0;
+  text-align: center;
   animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
 }
 
-.hero-desc {
-  color: #64748b;
+.about-hero-desc {
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
   font-size: 0.85rem;
   font-weight: 600;
   margin: 0;
   opacity: 0;
+  text-align: center;
   animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
 }
 
@@ -114,7 +140,7 @@
   order: 2;
 }
 
-.section-label {
+.about-page .section-label {
   color: #C9A86A;
   font-size: 0.75rem;
   font-weight: 700;
@@ -143,6 +169,7 @@
 }
 
 .values-section {
+  width: 100%;
   max-width: 1050px;
   margin: 0 auto 4.5rem;
   padding: 0 1rem;
@@ -179,12 +206,26 @@
   padding: 2rem 1.3rem;
   text-align: center;
   box-shadow: 0 4px 18px rgba(15, 23, 42, 0.025);
-  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
-.value-card:nth-child(1) { opacity: 0; animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.75s forwards; }
-.value-card:nth-child(2) { opacity: 0; animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards; }
-.value-card:nth-child(3) { opacity: 0; animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards; }
+.value-card:nth-child(1) {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.75s forwards;
+}
+
+.value-card:nth-child(2) {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+
+.value-card:nth-child(3) {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards;
+}
 
 .value-card:hover {
   transform: translateY(-5px);
@@ -203,13 +244,20 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto 1.7rem;
-  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .icon-wrapper svg {
   width: 22px;
   height: 22px;
-  transition: color 0.35s ease, transform 0.35s ease;
+  transition:
+    color 0.35s ease,
+    transform 0.35s ease;
 }
 
 .value-card:hover .icon-wrapper {
@@ -251,11 +299,14 @@
 }
 
 .stats-section {
-  background-color: #0B1320;
+  width: 100%;
+  background-color: #0B1320; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
   padding: 3.5rem 2rem;
 }
 
 .stats-container {
+  width: 100%;
   max-width: 1050px;
   margin: 0 auto;
   display: grid;
@@ -273,10 +324,25 @@
   justify-content: center;
 }
 
-.stat-item:nth-child(1) { opacity: 0; animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards; }
-.stat-item:nth-child(2) { opacity: 0; animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.35s forwards; }
-.stat-item:nth-child(3) { opacity: 0; animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards; }
-.stat-item:nth-child(4) { opacity: 0; animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.65s forwards; }
+.stat-item:nth-child(1) {
+  opacity: 0;
+  animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+}
+
+.stat-item:nth-child(2) {
+  opacity: 0;
+  animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.35s forwards;
+}
+
+.stat-item:nth-child(3) {
+  opacity: 0;
+  animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+}
+
+.stat-item:nth-child(4) {
+  opacity: 0;
+  animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.65s forwards;
+}
 
 .stat-item:not(:last-child)::after {
   display: none;
@@ -285,7 +351,8 @@
 .stat-item h3 {
   display: block;
   width: 100%;
-  color: #C9A86A;
+  color: #C9A86A !important; 
+  -webkit-text-fill-color: #C9A86A !important;
   font-size: 2rem;
   font-weight: 800;
   margin: 0 0 0.35rem;
@@ -296,7 +363,8 @@
 .stat-item p {
   display: block;
   width: 100%;
-  color: #64748b;
+  color: #8a94a6 !important; 
+  -webkit-text-fill-color: #8a94a6 !important;
   font-size: 0.8rem;
   font-weight: 600;
   margin: 0;
@@ -336,12 +404,12 @@
     padding: 4rem 1.5rem 6rem;
   }
 
-  .hero-title {
+  .about-hero-title {
     font-size: 2.3rem;
     white-space: normal;
   }
 
-  .hero-desc {
+  .about-hero-desc {
     font-size: 0.85rem;
   }
 
@@ -395,15 +463,19 @@
 }
 
 @media (max-width: 480px) {
-  .hero-title {
+  .about-hero {
+    padding: 3.5rem 1rem 5rem;
+  }
+
+  .about-hero-title {
     font-size: 1.9rem;
   }
 
-  .hero-subtitle {
+  .about-hero-subtitle {
     font-size: 0.7rem;
   }
 
-  .hero-desc {
+  .about-hero-desc {
     font-size: 0.78rem;
   }
 
