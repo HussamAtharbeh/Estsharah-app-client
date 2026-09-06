@@ -7,7 +7,7 @@ import Services from '../pages/vistors/Services';
 import About from '../pages/vistors/About';
 import Blog from '../pages/vistors/Blog';
 import SignIn from '../pages/login/SignIn';
-import { Contact } from '../pages/vistors/Contact';
+import Contact from '../pages/vistors/Contact';
 import SignUp from '../pages/login/SignUp';
 import SignUpClient from '../pages/login/SignUpClient';
 import SignUpLawyer from '../pages/login/SignUpLawyer';
