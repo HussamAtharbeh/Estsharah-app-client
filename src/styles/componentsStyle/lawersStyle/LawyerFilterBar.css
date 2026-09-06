@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.filter-bar {
+  width: 100%;
+  direction: rtl;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+  margin-bottom: 3rem;
+  transition:
+    box-shadow 0.4s ease,
+    transform 0.4s ease,
+    border-color 0.3s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.filter-bar:hover {
+  box-shadow: 0 15px 45px rgba(15, 23, 42, 0.09);
+  border-color: #e2e8f0;
+}
+
+.filter-inputs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  direction: rtl;
+}
+
+.filter-group {
+  min-width: 0;
+  width: 100%;
+}
+
+.filter-group label {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-align: right;
+  direction: rtl;
+}
+
+.input-with-icon {
+  position: relative;
+  width: 100%;
+  direction: rtl;
+}
+
+.input-with-icon svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+  z-index: 2;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.filter-group:not(.search-group) .input-with-icon svg {
+  right: 1rem;
+  left: auto;
+}
+
+.search-group .input-with-icon svg {
+  left: 1rem;
+  right: auto;
+}
+
+.input-with-icon input,
+.input-with-icon select {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 0 1rem;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #334155;
+  background: #ffffff;
+  outline: none;
+  direction: rtl;
+  text-align: right;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    transform 0.3s ease;
+  appearance: none;
+}
+
+.input-with-icon input {
+  padding-left: 2.8rem;
+  padding-right: 1rem;
+}
+
+.input-with-icon select {
+  padding-left: 2.8rem;
+  padding-right: 2.8rem;
+  cursor: pointer;
+}
+
+.input-with-icon input::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+  text-align: right;
+  direction: rtl;
+}
+
+.input-with-icon input:hover,
+.input-with-icon select:hover {
+  border-color: #cbd5e1;
+  background-color: #fcfcfd;
+}
+
+.input-with-icon input:focus,
+.input-with-icon select:focus {
+  border-color: #C9A86A;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.1);
+}
+
+.input-with-icon:focus-within svg {
+  color: #C9A86A;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.input-with-icon select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 1rem center;
+  background-size: 16px;
+}
+
+.input-with-icon select option {
+  background-color: #ffffff;
+  color: #334155;
+  font-family: 'Cairo', sans-serif;
+  padding: 10px;
+  direction: rtl;
+  text-align: right;
+}
+
+.filter-bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.3rem;
+  border-top: 1px solid #f1f5f9;
+  min-height: 55px;
+  direction: rtl;
+}
+
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  user-select: none;
+  direction: rtl;
+  transition: opacity 0.3s ease;
+}
+
+.toggle-wrapper:hover {
+  opacity: 0.85;
+}
+
+.toggle-wrapper span {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+  white-space: nowrap;
+  direction: rtl;
+  text-align: right;
+}
+
+.custom-toggle {
+  width: 48px;
+  height: 26px;
+  background-color: #e2e8f0;
+  border-radius: 100px;
+  position: relative;
+  flex-shrink: 0;
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.custom-toggle.active {
+  background-color: #C9A86A;
+  box-shadow: 0 3px 10px rgba(201, 168, 106, 0.25);
+}
+
+.toggle-knob {
+  width: 22px;
+  height: 22px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.12);
+}
+
+.custom-toggle.active .toggle-knob {
+  transform: translateX(-22px);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.16);
+}
+
+.results-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 100px;
+  padding: 0.5rem 0.9rem;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0B1320;
+  direction: rtl;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.results-count:hover {
+  transform: translateY(-2px);
+  border-color: #C9A86A;
+  box-shadow: 0 6px 15px rgba(15, 23, 42, 0.08);
+}
+
+.results-count svg {
+  color: #C9A86A;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .filter-inputs {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter-bar {
+    padding: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-inputs {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .filter-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .toggle-wrapper {
+    justify-content: flex-start;
+  }
+
+  .results-count {
+    width: fit-content;
+  }
+
+  .filter-bar {
+    border-radius: 16px;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-with-icon input,
+  .input-with-icon select {
+    height: 48px;
+    font-size: 0.85rem;
+  }
+
+  .filter-group label {
+    font-size: 0.75rem;
+  }
+
+  .toggle-wrapper span {
+    font-size: 0.8rem;
+  }
+}
