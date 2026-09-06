@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Mail, Phone } from 'lucide-react';
 import { TextField, Button } from '@mui/material';
 import '../../styles/pagesStyle/vistorsStyle/Contact.css';
+import Footer from '../../components/shared/Footer';
 
 const CONTACT_INFO = [
   {
@@ -154,6 +155,7 @@ const Contact = () => {
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

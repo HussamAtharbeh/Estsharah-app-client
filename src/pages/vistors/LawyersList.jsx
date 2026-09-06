@@ -4,6 +4,7 @@ import LawyerCard from '../../components/lawyers/LawyerCard';
 import LawyerFilterBar from '../../components/lawyers/LawyerFilterBar';
 import '../../styles/pagesStyle/vistorsStyle/Lawyers.css';
 import lawyerImg from '../../assets/images/lawyer1.jpg';
+import Footer from '../../components/shared/Footer';
 
 const LAWYERS_DATA = [
   { 
@@ -104,6 +105,7 @@ const LawyersList = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };
