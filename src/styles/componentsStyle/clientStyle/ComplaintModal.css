@@ -1,0 +1,163 @@
+.complaint-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(11, 19, 32, 0.62);
+  backdrop-filter: blur(5px);
+  direction: rtl;
+}
+
+.complaint-modal {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  padding: 32px 30px 30px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+  animation: complaintModalIn 0.3s ease;
+}
+
+.complaint-close {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  width: 35px;
+  height: 35px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.complaint-header {
+  margin-bottom: 28px;
+  text-align: right;
+}
+
+.complaint-header h2 {
+  margin: 0 0 2px;
+  color: #0b1320;
+  font-size: 1.65rem;
+  font-weight: 800;
+}
+
+.complaint-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.complaint-section {
+  margin-bottom: 20px;
+}
+
+.complaint-section label {
+  display: block;
+  margin-bottom: 10px;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.complaint-types {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.complaint-type {
+  min-height: 48px;
+  border: 1px solid #e7e7e3;
+  border-radius: 24px;
+  background: #f5f5f2;
+  color: #64748b;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.complaint-type:hover {
+  border-color: #c9a86a;
+}
+
+.complaint-type.selected {
+  background: #0b1320;
+  border-color: #0b1320;
+  color: #ffffff;
+  box-shadow: 0 5px 12px rgba(11, 19, 32, 0.12);
+}
+
+.complaint-section textarea {
+  width: 100%;
+  min-height: 132px;
+  padding: 17px;
+  resize: vertical;
+  border: 1px solid #c9a86a;
+  border-radius: 20px;
+  outline: none;
+  color: #0b1320;
+  background: #ffffff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  text-align: right;
+  direction: rtl;
+}
+
+.complaint-section textarea:focus {
+  box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.1);
+}
+
+.complaint-submit {
+  width: 100%;
+  height: 55px;
+  border: none;
+  border-radius: 18px;
+  background: #ff2939;
+  color: #ffffff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.complaint-submit:hover {
+  transform: translateY(-2px);
+  background: #ed1d2d;
+}
+
+@keyframes complaintModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .complaint-modal {
+    padding: 28px 20px 22px;
+  }
+
+  .complaint-types {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.dashboard-sidebar {
+  width: 280px;
+  min-height: 100vh;
+  background-color: #ffffff;
+  border-left: 1px solid #e2e8f0;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 0 24px 30px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.sidebar-profile .avatar {
+  width: 48px;
+  height: 48px;
+  background-color: #C9A86A;
+  color: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(201, 168, 106, 0.3);
+}
+
+.profile-info h4 {
+  margin: 0 0 2px 0;
+  font-size: 1.15rem;
+  color: #0B1320;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.profile-info span {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 0 16px;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #475569;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.2px;
+  transition: all 0.3s ease;
+  background: transparent;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  text-align: right;
+}
+
+.menu-icon {
+  color: #94a3b8;
+  transition: color 0.3s ease;
+}
+
+.menu-item:hover {
+  background-color: #f8fafc;
+  color: #0B1320;
+  transform: translateX(-4px);
+}
+
+.menu-item:hover .menu-icon {
+  color: #0B1320;
+}
+
+.menu-item.active {
+  background-color: #0B1320;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(11, 19, 32, 0.15);
+  font-weight: 700;
+}
+
+.menu-item.active .menu-icon {
+  color: #ffffff;
+}
+
+.sidebar-bottom {
+  padding: 24px 16px 0;
+  border-top: 1px solid #f1f5f9;
+  margin-top: auto;
+}
+
+.logout-btn {
+  color: #ef4444;
+  margin-top: 10px;
+}
+
+.logout-btn .menu-icon {
+  color: #ef4444;
+}
+
+.logout-btn:hover {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.logout-btn:hover .menu-icon {
+  color: #dc2626;
+}

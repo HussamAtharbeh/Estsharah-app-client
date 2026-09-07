@@ -1,0 +1,25 @@
+.client-dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  direction: rtl;
+}
+
+.dashboard-main-content {
+  flex: 1;
+  padding: 32px 40px;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .client-dashboard-layout {
+    flex-direction: column;
+  }
+  
+  .dashboard-main-content {
+    padding: 20px;
+    height: auto;
+    overflow-y: visible;
+  }
+}

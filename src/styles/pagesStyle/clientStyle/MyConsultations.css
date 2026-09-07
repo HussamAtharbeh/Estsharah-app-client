@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.my-consultations-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #fafaf8;
+  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+}
+
+.my-consultations-page,
+.my-consultations-page * {
+  box-sizing: border-box;
+  font-family: 'Cairo', sans-serif;
+}
+
+.my-consultations-container {
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 38px 30px 70px;
+}
+
+.my-consultations-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.my-consultations-title {
+  margin: 0;
+  color: #0b1320;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.new-consultation-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 240px;
+  height: 54px;
+  padding: 0 24px;
+  border-radius: 28px;
+  background: #c9a86a;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 6px 14px rgba(201, 168, 106, 0.2);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.new-consultation-btn:hover {
+  transform: translateY(-2px);
+  background: #b99451;
+  box-shadow: 0 10px 22px rgba(201, 168, 106, 0.28);
+}
+
+.consultations-list {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e9e7e2;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(11, 19, 32, 0.025);
+}
+
+@media (max-width: 900px) {
+  .my-consultations-container {
+    padding: 35px 24px 60px;
+  }
+}
+
+@media (max-width: 700px) {
+  .my-consultations-container {
+    padding: 28px 18px 50px;
+  }
+
+  .my-consultations-header {
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .my-consultations-title {
+    font-size: 1.6rem;
+  }
+
+  .new-consultation-btn {
+    min-width: auto;
+    height: 48px;
+    padding: 0 16px;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .my-consultations-container {
+    padding: 24px 14px 45px;
+  }
+
+  .my-consultations-header {
+    flex-direction: column;
+  }
+
+  .new-consultation-btn {
+    width: 100%;
+  }
+
+  .consultations-list {
+    border-radius: 16px;
+  }
+}

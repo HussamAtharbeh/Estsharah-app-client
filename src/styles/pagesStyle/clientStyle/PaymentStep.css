@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.payment-step {
+  direction: rtl;
+}
+
+.booking-summary {
+  width: 100%;
+  border: 1px solid #e7e5e1;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.summary-row {
+  min-height: 64px;
+  padding: 13px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #eeeeeb;
+}
+
+.summary-row > div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #64748b;
+}
+
+.summary-row > div svg {
+  color: #c9a86a;
+  flex-shrink: 0;
+}
+
+.summary-row > div span {
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.summary-row > strong {
+  color: #0b1320;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.summary-total {
+  min-height: 76px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #faf8f3;
+}
+
+.summary-total span {
+  color: #0b1320;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.summary-total strong {
+  color: #c9a86a;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.payment-method {
+  width: 100%;
+  margin-top: 22px;
+  padding: 18px 20px;
+  border: 1px solid #e4e7eb;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+}
+
+.payment-method-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #f5f1e8;
+  color: #c9a86a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.payment-method-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: right;
+}
+
+.payment-method-content strong {
+  color: #0b1320;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.payment-method-content span {
+  color: #64748b;
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+
+.payment-method-check {
+  color: #c9a86a;
+  flex-shrink: 0;
+}
+
+.confirm-booking-btn {
+  width: 100%;
+  min-height: 60px;
+  margin-top: 24px;
+  border: none;
+  border-radius: 13px;
+  background: #0b1320;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.confirm-booking-btn:hover {
+  transform: translateY(-2px);
+  background: #172233;
+  box-shadow: 0 10px 24px rgba(11, 19, 32, 0.16);
+}
+
+.confirm-booking-btn svg {
+  color: #c9a86a;
+}
+
+@media (max-width: 600px) {
+  .summary-row {
+    min-height: 60px;
+    padding: 12px 15px;
+    gap: 10px;
+  }
+
+  .summary-row > div span {
+    font-size: 0.78rem;
+  }
+
+  .summary-row > strong {
+    font-size: 0.78rem;
+  }
+
+  .payment-method {
+    padding: 15px;
+  }
+
+  .payment-method-content span {
+    font-size: 0.7rem;
+  }
+
+  .confirm-booking-btn {
+    min-height: 56px;
+  }
+}
