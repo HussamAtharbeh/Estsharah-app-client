@@ -22,6 +22,11 @@ import Payments from '../pages/clients/Payments';
 import Settings from '../pages/clients/Settings';
 import BookConsultation from '../pages/clients/BookConsultation';
 
+import LawyerDashboard from '../pages/lawyers/LawyerDashboard';
+import LawyerOrders from '../pages/lawyers/LawyerOrders';
+import LawyerConsultations from '../pages/lawyers/Consultations';
+import LawyerSettings from '../pages/lawyers/Settings';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -45,6 +50,13 @@ export const AppRoutes = () => {
         <Route path="consultations/book" element={<BookConsultation />} />
         <Route path="payments" element={<Payments />} />
         <Route path="settings" element={<Settings />} />
+      </Route>
+
+      <Route path="/lawyer" element={<LawyerDashboard />}>
+        <Route index element={<Navigate to="requests" replace />} />
+        <Route path="requests" element={<LawyerOrders />} />
+        <Route path="consultations" element={<LawyerConsultations />} />
+        <Route path="settings" element={<LawyerSettings />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

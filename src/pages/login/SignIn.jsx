@@ -9,16 +9,19 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  
   const login = async (e) => {
     e.preventDefault();
     
-     if (email === "h@gmail.com" && password === "1234") {
-    navigate("/client");
-  } else {
-    alert("البريد الإلكتروني أو كلمة المرور غير صحيحة!");
-  }
-
+    if (email === "h@gmail.com" && password === "1234") {
+      navigate("/client");
+    } else if (email === "l@gmail.com" && password === "1234") {
+      navigate("/lawyer");
+    } else {
+      alert("البريد الإلكتروني أو كلمة المرور غير صحيحة!");
+    }
   };
+
   return (
     <div className="signin-layout">
       <div className="signin-form-section">
@@ -45,8 +48,7 @@ const SignIn = () => {
               label="البريد الإلكتروني"
               type="email"
               placeholder="name@email.com"
-                autoComplete="new-email"
-
+              autoComplete="new-email"
               dir="ltr"
               icon={Mail}
               value={email}

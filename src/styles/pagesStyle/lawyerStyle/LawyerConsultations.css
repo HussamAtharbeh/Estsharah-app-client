@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.lawyer-consultations-page {
+  width: 100%;
+  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+}
+
+.lawyer-consultations-page,
+.lawyer-consultations-page * {
+  box-sizing: border-box;
+  font-family: 'Cairo', sans-serif;
+}
+
+.lawyer-consultations-container {
+  width: 100%;
+  max-width: 1220px;
+  margin: 0 auto;
+}
+
+.consultations-page-header {
+  margin-bottom: 25px;
+}
+
+.header-title h1 {
+  margin: 0 0 5px;
+  color: #0b1320;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.header-title p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.consultations-tabs {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #eeeeeb;
+  padding-bottom: 10px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 10px 5px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.tab-btn:hover,
+.tab-btn.active {
+  color: #0b1320;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #c9a86a;
+  border-radius: 3px 3px 0 0;
+}
+
+.consultations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.consultations-empty-state {
+  padding: 60px 20px;
+  text-align: center;
+  color: #64748b;
+  font-size: 1.05rem;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+}
+
+@media (max-width: 600px) {
+  .consultations-empty-state {
+    padding: 45px 20px;
+    font-size: 0.95rem;
+  }
+}

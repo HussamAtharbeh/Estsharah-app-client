@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.lawyer-dashboard-layout {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  direction: rtl;
+  background: #fafaf8;
+  font-family: 'Cairo', sans-serif;
+}
+
+.lawyer-dashboard-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+  padding: 28px 30px 60px;
+  background: #fafaf8;
+  font-family: 'Cairo', sans-serif;
+}
+
+.lawyer-dashboard-main > * {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .lawyer-dashboard-main {
+    padding: 22px 20px 50px;
+  }
+}
+
+@media (max-width: 600px) {
+  .lawyer-dashboard-main {
+    padding: 16px 12px 40px;
+  }
+}
