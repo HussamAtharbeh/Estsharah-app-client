@@ -1,0 +1,198 @@
+.consultation-card-modern {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e8e8e6;
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-shadow: 0 4px 15px rgba(11, 19, 32, 0.02);
+  transition: box-shadow 0.3s ease;
+}
+
+.consultation-card-modern:hover {
+  box-shadow: 0 8px 25px rgba(11, 19, 32, 0.05);
+}
+
+.consultation-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-client-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.client-avatar {
+  width: 50px;
+  height: 50px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 1.25rem;
+  font-weight: 800;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.client-text h2 {
+  margin: 0 0 6px;
+  color: #0b1320;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.client-subtext {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.order-id {
+  background: #f1f5f9;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-weight: 700;
+  color: #475569;
+}
+
+.header-status-price {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.status-badge {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.status-badge.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.status-badge.completed {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.price-text {
+  color: #c9a86a;
+  font-weight: 800;
+  font-size: 1.15rem;
+}
+
+.consultation-card-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.action-box {
+  background: #ffffff;
+  border: 1px solid #eeeeeb;
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0b1320;
+}
+
+.action-box:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+}
+
+.action-icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-action .action-icon-circle {
+  background: #faf5ff;
+  color: #a855f7;
+}
+
+.map-action .action-icon-circle {
+  background: #f0fdf4;
+  color: #22c55e;
+}
+
+.phone-action .action-icon-circle {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.complaint-action .action-icon-circle {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+@media (max-width: 900px) {
+  .consultation-card-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .consultation-card-modern {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .consultation-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .header-status-price {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .consultation-card-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .client-text h2 {
+    font-size: 1rem;
+  }
+
+  .client-subtext {
+    font-size: 0.78rem;
+  }
+
+  .price-text {
+    font-size: 1rem;
+  }
+
+  .action-box {
+    padding: 18px;
+  }
+}
