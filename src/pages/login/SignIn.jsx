@@ -9,13 +9,16 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
   const login = async (e) => {
     e.preventDefault();
-    console.log("محاولة تسجيل دخول:", { email, password });
-    navigate("/");
-  };
+    
+     if (email === "h@gmail.com" && password === "1234") {
+    navigate("/client");
+  } else {
+    alert("البريد الإلكتروني أو كلمة المرور غير صحيحة!");
+  }
 
+  };
   return (
     <div className="signin-layout">
       <div className="signin-form-section">
@@ -36,12 +39,14 @@ const SignIn = () => {
             <p>أدخل بياناتك للوصول إلى حسابك</p>
           </div>
 
-          <form className="signin-form" onSubmit={login}>
+          <form className="signin-form" onSubmit={login} autoComplete="off" >
 
             <Input
               label="البريد الإلكتروني"
               type="email"
               placeholder="name@email.com"
+                autoComplete="new-email"
+
               dir="ltr"
               icon={Mail}
               value={email}

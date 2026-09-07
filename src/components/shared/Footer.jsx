@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useLocation } from 'react-router-dom';
 import { Mail, Phone, MapPin, Scale } from 'lucide-react';
 import '../../styles/componentsStyle/sharedStyle/Footer.css';
 
@@ -19,7 +19,12 @@ const SPECIALIZATIONS = [
   { id: 4, label: 'قانون العقارات' }
 ];
 
+
 const Footer = () => {
+     const location = useLocation(); 
+  if (!QUICK_LINKS.some(link => link.path === location.pathname)) {
+  return null;
+}
   return (
     <footer className="site-footer">
       <div className="footer-container">

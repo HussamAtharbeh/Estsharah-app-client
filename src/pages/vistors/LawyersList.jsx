@@ -3,41 +3,9 @@ import { Award, AlertCircle } from 'lucide-react';
 import LawyerCard from '../../components/lawyers/LawyerCard';
 import LawyerFilterBar from '../../components/lawyers/LawyerFilterBar';
 import '../../styles/pagesStyle/vistorsStyle/Lawyers.css';
-import lawyerImg from '../../assets/images/lawyer1.jpg';
+import { lawyers } from '../../data/bookingData';
 
-const LAWYERS_DATA = [
-  { 
-    id: 1, 
-    name: "فارس البشير", 
-    spec: "الملكية الفكرية",
-    specialties: ["الملكية الفكرية", "عقود", "قانون مدني"], 
-    rating: 4.8, 
-    reviews: 83, 
-    city: "عمان", 
-    exp: 11, 
-    cases: 207, 
-    time: "أقل من ساعتين", 
-    price: 80, 
-    available: true, 
-    image: lawyerImg 
-  },
-  { 
-    id: 2, 
-    name: "صالح عذاربه", 
-    spec: "قانون تجاري", 
-    specialties: ["قانون تجاري وشركات", "قانون العمل", "قانون عقاري"], 
-    rating: 4.9, 
-    reviews: 128, 
-    city: "عمان", 
-    exp: 15, 
-    cases: 342, 
-    time: "أقل من ساعة", 
-    price: 75, 
-    available: true, 
-    image: lawyerImg 
-  }
-];
-
+const LAWYERS_DATA = Object.values(lawyers);
 const LawyersList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [specialization, setSpecialization] = useState('');

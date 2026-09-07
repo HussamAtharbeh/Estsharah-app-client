@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.book-consultation-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #fafaf8;
+  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+  color: #0b1320;
+}
+
+.book-consultation-page,
+.book-consultation-page * {
+  box-sizing: border-box;
+  font-family: 'Cairo', sans-serif;
+}
+
+.booking-hero {
+  width: 100%;
+  background: #0b1320;
+  padding: 55px 30px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-hero::before {
+  content: '';
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border: 1px solid rgba(201, 168, 106, 0.18);
+  border-radius: 50%;
+  top: -220px;
+  left: -100px;
+}
+
+.booking-hero::after {
+  content: '';
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border: 1px solid rgba(201, 168, 106, 0.12);
+  border-radius: 50%;
+  bottom: -190px;
+  right: -70px;
+}
+
+.booking-hero-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.booking-hero-container h1 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.booking-hero-container p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.92rem;
+  line-height: 1.9;
+}
+
+.booking-container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 42px 30px 80px;
+}
+
+.booking-content {
+  width: 100%;
+  min-height: 300px;
+}
+
+.booking-navigation {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 24px;
+  direction: rtl;
+}
+
+.booking-back-btn,
+.booking-next-btn {
+  min-height: 54px;
+  border-radius: 13px;
+  padding: 0 23px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.87rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.booking-back-btn {
+  min-width: 125px;
+  background: #fff;
+  border: 1px solid #dfe3e8;
+  color: #0b1320;
+}
+
+.booking-back-btn:hover {
+  transform: translateY(-2px);
+  border-color: #c9a86a;
+  color: #c9a86a;
+  box-shadow: 0 7px 18px rgba(11, 19, 32, 0.07);
+}
+
+.booking-next-btn {
+  min-width: 235px;
+  border: 1px solid #d8dadd;
+  background: #e8e9eb;
+  color: #9aa1a9;
+}
+
+.booking-next-btn.enabled {
+  background: #0b1320;
+  border-color: #0b1320;
+  color: #fff;
+  box-shadow: 0 7px 18px rgba(11, 19, 32, 0.12);
+}
+
+.booking-next-btn.enabled:hover {
+  transform: translateY(-2px);
+  background: #172233;
+  box-shadow: 0 10px 24px rgba(11, 19, 32, 0.16);
+}
+
+.booking-next-btn:disabled {
+  cursor: not-allowed;
+}
+
+.booking-next-btn svg {
+  color: #c9a86a;
+}
+
+.booking-back-btn svg {
+  transition: transform 0.25s ease;
+}
+
+.booking-back-btn:hover svg {
+  transform: translateX(3px);
+}
+
+.booking-next-btn.enabled svg {
+  transition: transform 0.25s ease;
+}
+
+.booking-next-btn.enabled:hover svg {
+  transform: translateX(-3px);
+}
+
+.booking-error {
+  width: 100%;
+  max-width: 650px;
+  margin: 80px auto;
+  padding: 40px 30px;
+  background: #fff;
+  border: 1px solid #e7e5e1;
+  border-radius: 20px;
+  text-align: center;
+  direction: rtl;
+  box-shadow: 0 8px 28px rgba(11, 19, 32, 0.05);
+}
+
+.booking-error h2 {
+  margin: 0 0 10px;
+  color: #0b1320;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.booking-error p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 900px) {
+  .booking-hero {
+    padding: 45px 25px 50px;
+  }
+
+  .booking-hero-container h1 {
+    font-size: 1.9rem;
+  }
+
+  .booking-container {
+    padding: 35px 22px 65px;
+  }
+}
+
+@media (max-width: 600px) {
+  .booking-hero {
+    padding: 38px 20px 42px;
+  }
+
+  .booking-hero-container h1 {
+    font-size: 1.55rem;
+  }
+
+  .booking-hero-container p {
+    font-size: 0.8rem;
+  }
+
+  .booking-container {
+    padding: 28px 15px 55px;
+  }
+
+  .booking-navigation {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .booking-back-btn,
+  .booking-next-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .booking-hero-container h1 {
+    font-size: 1.35rem;
+  }
+
+  .booking-container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .booking-back-btn,
+  .booking-next-btn {
+    min-height: 51px;
+    font-size: 0.8rem;
+  }
+}

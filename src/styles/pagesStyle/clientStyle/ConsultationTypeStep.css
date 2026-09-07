@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.booking-step-card {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e8e5df;
+  border-radius: 20px;
+  padding: 34px;
+  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+  box-shadow: 0 8px 28px rgba(11, 19, 32, 0.035);
+}
+
+.booking-step-header {
+  margin-bottom: 30px;
+  text-align: right;
+}
+
+.booking-step-header h2 {
+  margin: 0 0 8px;
+  color: #0b1320;
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.booking-step-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.consultation-types {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.consultation-type-card {
+  width: 100%;
+  min-height: 132px;
+  border: 1px solid #e4e7eb;
+  border-radius: 0;
+  background: #fff;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  transition:
+    transform .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease,
+    background-color .25s ease;
+}
+
+.consultation-type-card:hover {
+  transform: translateY(-2px);
+  border-color: #c9a86a;
+}
+
+.consultation-type-card.selected {
+  border: 2px solid #c9a86a;
+  background: #fdfbf7;
+  box-shadow: 0 8px 20px rgba(201, 168, 106, .08);
+}
+
+.consultation-type-icon {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9aa6b8;
+  margin-bottom: 10px;
+  transition: color .25s ease;
+}
+
+.consultation-type-card.selected .consultation-type-icon {
+  color: #c9a86a;
+}
+
+.consultation-type-content {
+  width: 100%;
+}
+
+.consultation-type-content h3 {
+  margin: 0 0 4px;
+  color: #0b1320;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.consultation-type-content strong {
+  display: block;
+  color: #64748b;
+  font-size: .82rem;
+  font-weight: 500;
+}
+
+.consultation-type-card.selected .consultation-type-content strong {
+  color: #64748b;
+}
+
+.consultation-extra {
+  width: 100%;
+  margin-top: 30px;
+  border-radius: 18px;
+  padding: 25px 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  direction: rtl;
+  animation: consultationExtraIn .3s ease;
+}
+
+@keyframes consultationExtraIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.consultation-extra-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #0b1320;
+}
+
+.consultation-extra-header svg {
+  color: #c9a86a;
+}
+
+.consultation-extra-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.phone-extra {
+  display: block;
+  background: #fafafa;
+  border: 1px solid #e6e8eb;
+}
+
+.phone-fields {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.phone-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.phone-field label {
+  color: #0b1320;
+  font-size: .82rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.phone-field input {
+  width: 100%;
+  height: 57px;
+  border: 1px solid #d2d7de;
+  border-radius: 0;
+  background: #fff;
+  color: #0b1320;
+  padding: 0 15px;
+  outline: none;
+  font-family: 'Cairo', sans-serif;
+  font-size: .85rem;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.phone-field input:focus {
+  border-color: #c9a86a;
+  box-shadow: 0 0 0 3px rgba(201, 168, 106, .1);
+}
+
+.phone-field input::placeholder {
+  color: #9aa6b8;
+  opacity: 1;
+}
+
+.video-extra {
+  background: #f5faff;
+  border: 1px solid #d5e6ff;
+  color: #0b1320;
+}
+
+.office-extra {
+  background: #f7f7f7;
+  border: 1px solid #d9d9d9;
+  color: #0b1320;
+}
+
+.consultation-extra-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-extra .consultation-extra-icon {
+  color: #2563eb;
+}
+
+.office-extra .consultation-extra-icon {
+  color: #0b1320;
+}
+
+.consultation-extra-content {
+  flex: 1;
+  text-align: right;
+}
+
+.consultation-extra-content h3 {
+  margin: 0 0 6px;
+  color: #0b1320;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.consultation-extra-content p {
+  margin: 0;
+  color: #64748b;
+  font-size: .82rem;
+  line-height: 1.9;
+}
+
+@media (max-width: 900px) {
+  .consultation-types {
+    grid-template-columns: 1fr;
+  }
+
+  .consultation-type-card {
+    min-height: 105px;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: right;
+    gap: 15px;
+  }
+
+  .consultation-type-icon {
+    margin-bottom: 0;
+  }
+
+  .phone-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .booking-step-card {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .booking-step-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .consultation-extra {
+    padding: 20px;
+  }
+
+  .consultation-extra-content p {
+    font-size: .75rem;
+  }
+}

@@ -250,6 +250,7 @@
 }
 
 .book-btn {
+    text-decoration: none;
   min-width: 95px;
   height: 36px;
   background: #0B1320;

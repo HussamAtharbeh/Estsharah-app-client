@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.appointment-step {
+  direction: rtl;
+}
+
+.appointment-section {
+  width: 100%;
+}
+
+.appointment-section + .appointment-section {
+  margin-top: 32px;
+  padding-top: 30px;
+  border-top: 1px solid #eeeeeb;
+}
+
+.appointment-section-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 17px;
+  color: #0b1320;
+}
+
+.appointment-section-header svg {
+  color: #c9a86a;
+}
+
+.appointment-section-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.available-days {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.available-day {
+  min-height: 85px;
+  border: 1px solid #e4e7eb;
+  border-radius: 14px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.available-day:hover {
+  border-color: #c9a86a;
+  transform: translateY(-2px);
+}
+
+.available-day strong {
+  color: #0b1320;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.available-day span {
+  color: #64748b;
+  font-size: 0.76rem;
+}
+
+.available-day.selected {
+  background: #0b1320;
+  border-color: #0b1320;
+  box-shadow: 0 8px 20px rgba(11, 19, 32, 0.14);
+}
+
+.available-day.selected strong,
+.available-day.selected span {
+  color: #fff;
+}
+
+.available-times {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.available-time {
+  min-height: 52px;
+  border: 1px solid #e4e7eb;
+  border-radius: 12px;
+  background: #fff;
+  color: #0b1320;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.available-time svg {
+  color: #c9a86a;
+}
+
+.available-time:hover {
+  transform: translateY(-2px);
+  border-color: #c9a86a;
+}
+
+.available-time.selected {
+  background: #c9a86a;
+  border-color: #c9a86a;
+  color: #fff;
+}
+
+.available-time.selected svg {
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .available-days {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .available-times {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .available-days {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .available-times {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
