@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MapPin, Briefcase, FileText, Clock, Star, Eye, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import '../../styles/componentsStyle/lawersStyle/LawyerCard.css';
+
 const LawyerCard = ({ lawyer }) => {
   return (
     <div className="lawyer-card">
@@ -54,9 +56,12 @@ const LawyerCard = ({ lawyer }) => {
         </div>
         
         <div className="actions-section">
-          <button className="view-profile-btn">
+          <Link to="/lawyer/profile" state={{ lawyerData: lawyer }} 
+            onClick={() => window.scrollTo(0, 0)}
+
+          className="view-profile-btn">
             <Eye size={20} />
-          </button>
+          </Link>
           <button className="book-btn">
             احجز الآن
             <ArrowLeft size={16} />

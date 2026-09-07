@@ -4,13 +4,13 @@ import LawyerCard from '../../components/lawyers/LawyerCard';
 import LawyerFilterBar from '../../components/lawyers/LawyerFilterBar';
 import '../../styles/pagesStyle/vistorsStyle/Lawyers.css';
 import lawyerImg from '../../assets/images/lawyer1.jpg';
-import Footer from '../../components/shared/Footer';
 
 const LAWYERS_DATA = [
   { 
     id: 1, 
     name: "فارس البشير", 
-    spec: "الملكية الفكرية", 
+    spec: "الملكية الفكرية",
+    specialties: ["الملكية الفكرية", "عقود", "قانون مدني"], 
     rating: 4.8, 
     reviews: 83, 
     city: "عمان", 
@@ -23,8 +23,9 @@ const LAWYERS_DATA = [
   },
   { 
     id: 2, 
-    name: "خالد العمري", 
+    name: "صالح عذاربه", 
     spec: "قانون تجاري", 
+    specialties: ["قانون تجاري وشركات", "قانون العمل", "قانون عقاري"], 
     rating: 4.9, 
     reviews: 128, 
     city: "عمان", 
@@ -47,15 +48,25 @@ const LawyersList = () => {
   const filteredLawyers = useMemo(() => {
     return LAWYERS_DATA.filter((lawyer) => {
       if (isAvailableOnly && !lawyer.available) return false;
-      if (specialization && lawyer.spec !== specialization) return false;
       if (city && lawyer.city !== city) return false;
+      
+      if (specialization) {
+        const hasMainSpec = lawyer.spec === specialization;
+        const hasSubSpec = lawyer.specialties?.includes(specialization);
+        if (!hasMainSpec && !hasSubSpec) return false;
+      }
       
       if (searchTerm) {
         const term = searchTerm.toLowerCase();
-        if (!lawyer.name.toLowerCase().includes(term) && !lawyer.spec.toLowerCase().includes(term)) {
+        const matchName = lawyer.name.toLowerCase().includes(term);
+        const matchMainSpec = lawyer.spec.toLowerCase().includes(term);
+        const matchSubSpec = lawyer.specialties?.some(s => s.toLowerCase().includes(term));
+        
+        if (!matchName && !matchMainSpec && !matchSubSpec) {
           return false;
         }
       }
+      
       return true;
     }).sort((a, b) => {
       if (sortBy === 'price_asc') return a.price - b.price;
@@ -105,7 +116,6 @@ const LawyersList = () => {
           </div>
         )}
       </div>
-      <Footer />
     </div>
   );
 };

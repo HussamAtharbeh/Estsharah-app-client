@@ -7,7 +7,9 @@ const QUICK_LINKS = [
   { id: 1, label: 'الرئيسية', path: '/' },
   { id: 2, label: 'المحامون', path: '/lawyers' },
   { id: 3, label: 'خدماتنا', path: '/services' },
-  { id: 4, label: 'من نحن', path: '/about' }
+  { id: 4, label: 'من نحن', path: '/about' },
+  { id: 5, label: 'المدونة', path: '/blog' },
+  { id: 6, label: 'تواصل معنا', path: '/contact' }
 ];
 
 const SPECIALIZATIONS = [
@@ -22,7 +24,6 @@ const Footer = () => {
     <footer className="site-footer">
       <div className="footer-container">
         <div className="footer-main">
-          {/* العمود الأول: الشعار والوصف */}
           <div className="footer-brand">
             <div className="footer-logo">
               <div className="footer-logo-icon">
@@ -37,40 +38,45 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* العمود الثاني: روابط سريعة */}
           <div className="footer-column">
             <h3>روابط سريعة</h3>
             <div className="footer-links">
               {QUICK_LINKS.map((link) => (
-                <Link key={link.id} to={link.path}>
+                <Link 
+                  key={link.id} 
+                  to={link.path}
+                  onClick={() => window.scrollTo(0, 0)} 
+                >
                   {link.label}
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* العمود الثالث: التخصصات */}
           <div className="footer-column">
             <h3>التخصصات</h3>
             <div className="footer-links">
               {SPECIALIZATIONS.map((item) => (
-                <Link key={item.id} to="/lawyers">
+                <Link 
+                  key={item.id} 
+                  to="/lawyers"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
                   {item.label}
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* العمود الرابع: تواصل معنا */}
           <div className="footer-column footer-contact">
             <h3>تواصل معنا</h3>
-            <a href="mailto:info@istishara.com" className="footer-contact-item">
+            <a href="mailto:hussamoatharbeh@gmail.com" className="footer-contact-item">
               <Mail size={18} className="contact-icon" />
-              <span dir="ltr">info@istishara.com</span>
+              <span dir="ltr">hussamoatharbeh@gmail.com</span>
             </a>
-            <a href="tel:+96261234567" className="footer-contact-item">
+            <a href="tel:+962795140439" className="footer-contact-item">
               <Phone size={18} className="contact-icon" />
-              <span dir="ltr">+962 6 123 4567</span>
+              <span dir="ltr">+962 795140439</span>
             </a>
             <div className="footer-contact-item">
               <MapPin size={18} className="contact-icon" />
@@ -79,12 +85,11 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* الجزء السفلي: الحقوق والروابط القانونية */}
         <div className="footer-bottom">
           <p>© 2025 استشارة. جميع الحقوق محفوظة.</p>
           <div className="footer-legal">
-            <Link to="/privacy">سياسة الخصوصية</Link>
-            <Link to="/terms">الشروط والأحكام</Link>
+            <Link to="/">سياسة الخصوصية</Link>
+            <Link to="/">الشروط والأحكام</Link>
           </div>
         </div>
       </div>

@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../../styles/pagesStyle/vistorsStyle/Services.css';
-import Footer from '../../components/shared/Footer';
 
 const SERVICES_DATA = [
   {
@@ -114,7 +113,6 @@ const Services = () => {
           })}
         </div>
       </section>
-            <Footer />
 
     </div>
   );
