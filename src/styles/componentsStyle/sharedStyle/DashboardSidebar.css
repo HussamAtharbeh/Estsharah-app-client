@@ -2,12 +2,16 @@
 
 .dashboard-sidebar {
   width: 280px;
-  min-height: 100vh;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
   background-color: #ffffff;
   border-left: 1px solid #e2e8f0;
   padding: 24px 0;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
   font-family: 'Cairo', sans-serif;
   direction: rtl;
   -webkit-font-smoothing: antialiased;
@@ -21,6 +25,7 @@
   padding: 0 24px 30px;
   margin-bottom: 20px;
   border-bottom: 1px solid #f1f5f9;
+  flex-shrink: 0;
 }
 
 .sidebar-profile .avatar {
@@ -33,6 +38,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 10px rgba(201, 168, 106, 0.3);
+  flex-shrink: 0;
 }
 
 .profile-info h4 {
@@ -86,6 +92,7 @@
 .menu-icon {
   color: #94a3b8;
   transition: color 0.3s ease;
+  flex-shrink: 0;
 }
 
 .menu-item:hover {
@@ -113,6 +120,7 @@
   padding: 24px 16px 0;
   border-top: 1px solid #f1f5f9;
   margin-top: auto;
+  flex-shrink: 0;
 }
 
 .logout-btn {
@@ -131,4 +139,24 @@
 
 .logout-btn:hover .menu-icon {
   color: #dc2626;
+}
+
+/* Sidebar's own scrollbar, subtle */
+.dashboard-sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.dashboard-sidebar::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+  .dashboard-sidebar {
+    position: static;
+    height: auto;
+    width: 100%;
+    border-left: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
 }
