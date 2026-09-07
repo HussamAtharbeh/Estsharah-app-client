@@ -27,6 +27,11 @@ import LawyerOrders from '../pages/lawyers/LawyerOrders';
 import LawyerConsultations from '../pages/lawyers/Consultations';
 import LawyerSettings from '../pages/lawyers/Settings';
 
+import AdminDashboard from '../pages/admin/AdminDashboard';
+import Complaints from '../pages/admin/Complaints';
+import ManageClients from '../pages/admin/ManageClients';
+import ManageLawyers from '../pages/admin/ManageLawyers';
+
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -58,7 +63,12 @@ export const AppRoutes = () => {
         <Route path="consultations" element={<LawyerConsultations />} />
         <Route path="settings" element={<LawyerSettings />} />
       </Route>
-
+<Route path="/admin" element={<AdminDashboard />}>
+  <Route index element={<Navigate to="lawyers" replace />} />
+  <Route path="lawyers" element={<ManageLawyers />} />
+  <Route path="clients" element={<ManageClients />} />
+  <Route path="complaints" element={<Complaints />} />
+</Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

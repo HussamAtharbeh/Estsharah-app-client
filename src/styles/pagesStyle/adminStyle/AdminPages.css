@@ -1,0 +1,387 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+.admin-dashboard-layout {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  direction: rtl;
+  background: #fafaf8;
+  font-family: 'Cairo', sans-serif;
+}
+
+.admin-dashboard-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+  padding: 30px;
+  background: #fafaf8;
+}
+
+.admin-page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-page-header {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: flex-end;
+  text-align: left;
+}
+
+.admin-page-header .header-title {
+  text-align: left;
+}
+
+.admin-page-header h1 {
+  margin: 0 0 5px;
+  color: #0b1320;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.admin-page-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+/* Tables Styling */
+.admin-table-wrapper {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e8e8e6;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(11, 19, 32, 0.02);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+}
+
+.admin-table th {
+  background: #fdfdfc;
+  padding: 20px 25px;
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-bottom: 1px solid #eeeeeb;
+}
+
+.admin-table td {
+  padding: 20px 25px;
+  border-bottom: 1px solid #eeeeeb;
+  vertical-align: middle;
+  color: #334155;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tr:hover {
+  background: #fafaf8;
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-avatar {
+  width: 42px;
+  height: 42px;
+  background: #eff6ff;
+  color: #2563eb;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.client-avatar {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.user-name {
+  color: #0b1320;
+  font-weight: 700;
+}
+
+.date-cell, .email-cell, .count-cell {
+  font-family: monospace;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.status-badge {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.status-badge.active {
+  background: #eefdf4;
+  color: #10b981;
+}
+
+.status-badge.suspended {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-btn {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-suspend {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.btn-suspend:hover { background: #fef3c7; }
+
+.btn-activate {
+  background: #eefdf4;
+  color: #10b981;
+}
+
+.btn-activate:hover { background: #d1fae5; }
+
+.btn-delete {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.btn-delete:hover { background: #fee2e2; }
+
+/* Complaints Styling */
+.complaints-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.complaint-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 25px 30px;
+  border: 1px solid #e8e8e6;
+  box-shadow: 0 4px 15px rgba(11, 19, 32, 0.02);
+}
+
+.complaint-card.open-cmp {
+  border-color: #fecaca;
+  background: #fffcfc;
+}
+
+.cmp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.cmp-date {
+  color: #64748b;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.cmp-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cmp-badge {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.type-badge {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.status-badge-cmp.resolved {
+  background: #eefdf4;
+  color: #10b981;
+}
+
+.status-badge-cmp.open {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.id-badge {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-family: monospace;
+}
+
+.cmp-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cmp-parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.party-box {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  border: 1px solid #f1f5f9;
+}
+
+.open-cmp .party-box {
+  background: #ffffff;
+  border-color: #fee2e2;
+}
+
+.party-label {
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.party-name {
+  color: #0b1320;
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.party-role {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.cmp-details-box {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+}
+
+.open-cmp .cmp-details-box {
+  background: #ffffff;
+  border-color: #fee2e2;
+}
+
+.details-label {
+  display: block;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: right;
+}
+
+.cmp-details-box p {
+  margin: 0;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: right;
+}
+
+.cmp-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid #fee2e2;
+}
+
+.cmp-btn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-archive {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+}
+
+.btn-archive:hover {
+  background: #f8fafc;
+  color: #0b1320;
+}
+
+.btn-resolve {
+  background: #10b981;
+  border: 1px solid #10b981;
+  color: #ffffff;
+}
+
+.btn-resolve:hover {
+  background: #059669;
+}
+
+@media (max-width: 768px) {
+  .cmp-parties {
+    grid-template-columns: 1fr;
+  }
+  .cmp-header {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+  }
+  .cmp-actions {
+    flex-direction: column;
+  }
+  .cmp-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

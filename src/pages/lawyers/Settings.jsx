@@ -16,6 +16,12 @@ import {
 import lawyerImg from '../../assets/images/lawyer1.jpg';
 import '../../styles/pagesStyle/lawyerStyle/LawyerSettings.css';
 
+const CONSULTATION_TYPES = [
+  { key: 'phone', label: 'استشارة هاتفية', icon: Phone },
+  { key: 'video', label: 'استشارة فيديو', icon: Video },
+  { key: 'office', label: 'استشارة حضورية', icon: MapPin }
+];
+
 const Settings = () => {
   const { user, setUser } = useOutletContext();
 
@@ -25,7 +31,11 @@ const Settings = () => {
     specialty: user?.specialty || 'قانون تجاري',
     experience: user?.experience || 15,
     bio: user?.bio || 'محام متخصص في قانون تجاري مع خبرة تتجاوز 15 عاماً في المحاكم الأردنية. أتعامل مع القضايا بمهنية عالية. أهدف دائماً إلى تقديم حلول قانونية عملية وفعالة تساعد عملائي على تحقيق أهدافهم بأمان وثقة.',
-    price: user?.price || 75,
+    prices: user?.prices || {
+      phone: 60,
+      video: 75,
+      office: 100
+    },
     available: user?.available ?? true,
     specialties: user?.specialties || [
       'قانون تجاري وشركات',
@@ -48,6 +58,18 @@ const Settings = () => {
     setFormData((prev) => ({
       ...prev,
       [name]: value
+    }));
+
+    setSaved(false);
+  };
+
+  const handlePriceChange = (type, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      prices: {
+        ...prev.prices,
+        [type]: value
+      }
     }));
 
     setSaved(false);
@@ -133,6 +155,13 @@ const Settings = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const cleanPrices = Object.fromEntries(
+      Object.entries(formData.prices).map(([key, value]) => [
+        key,
+        Number(value) || 0
+      ])
+    );
+
     const updatedUser = {
       ...user,
       name: formData.name.trim(),
@@ -140,7 +169,7 @@ const Settings = () => {
       specialty: formData.specialty,
       experience: Number(formData.experience),
       bio: formData.bio.trim(),
-      price: Number(formData.price),
+      prices: cleanPrices,
       available: formData.available,
       specialties: formData.specialties,
       consultationTypes: formData.consultationTypes,
@@ -377,97 +406,62 @@ const Settings = () => {
             <div className="settings-card-header">
               <div>
                 <h2>الاستشارات والأسعار</h2>
-                <p>حدد سعر الاستشارة وأنواعها المتاحة</p>
+                <p>حدد سعر كل نوع استشارة على حدة</p>
               </div>
 
               <MessageSquare size={21} />
             </div>
 
-            <div className="consultation-settings">
+            <div className="consultation-types-list">
 
-              <div className="settings-field price-field">
-                <label htmlFor="price">
-                  سعر الاستشارة <span>*</span>
-                </label>
+              {CONSULTATION_TYPES.map(({ key, label, icon: Icon }) => {
+                const isSelected = formData.consultationTypes.includes(key);
 
-                <div className="price-input">
-                  <input
-                    id="price"
-                    name="price"
-                    type="number"
-                    min="0"
-                    value={formData.price}
-                    onChange={handleChange}
-                    required
-                  />
-
-                  <span>د.أ</span>
-                </div>
-              </div>
-
-              <div className="consultation-types">
-
-                <label>أنواع الاستشارات المتاحة</label>
-
-                <div className="consultation-options">
-
-                  <button
-                    type="button"
-                    className={`consultation-option ${
-                      formData.consultationTypes.includes('phone')
-                        ? 'selected'
-                        : ''
+                return (
+                  <div
+                    key={key}
+                    className={`consultation-type-row ${
+                      isSelected ? 'selected' : ''
                     }`}
-                    onClick={() => toggleConsultationType('phone')}
                   >
-                    <span className="option-check">
-                      {formData.consultationTypes.includes('phone') && '✓'}
-                    </span>
 
-                    <Phone size={16} />
+                    <button
+                      type="button"
+                      className="consultation-type-toggle"
+                      onClick={() => toggleConsultationType(key)}
+                    >
+                      <span className="option-check">
+                        {isSelected && '✓'}
+                      </span>
 
-                    <span>استشارة هاتفية</span>
-                  </button>
+                      <Icon size={16} />
 
-                  <button
-                    type="button"
-                    className={`consultation-option ${
-                      formData.consultationTypes.includes('video')
-                        ? 'selected'
-                        : ''
-                    }`}
-                    onClick={() => toggleConsultationType('video')}
-                  >
-                    <span className="option-check">
-                      {formData.consultationTypes.includes('video') && '✓'}
-                    </span>
+                      <span>{label}</span>
+                    </button>
 
-                    <Video size={16} />
+                    <div
+                      className={`consultation-price-input ${
+                        isSelected ? '' : 'disabled'
+                      }`}
+                    >
+                      <input
+                        type="number"
+                        min="0"
+                        value={formData.prices[key] ?? ''}
+                        onChange={(e) =>
+                          handlePriceChange(key, e.target.value)
+                        }
+                        disabled={!isSelected}
+                        required={isSelected}
+                        placeholder="0"
+                      />
 
-                    <span>استشارة فيديو</span>
-                  </button>
+                      <span>د.أ</span>
+                    </div>
 
-                  <button
-                    type="button"
-                    className={`consultation-option ${
-                      formData.consultationTypes.includes('office')
-                        ? 'selected'
-                        : ''
-                    }`}
-                    onClick={() => toggleConsultationType('office')}
-                  >
-                    <span className="option-check">
-                      {formData.consultationTypes.includes('office') && '✓'}
-                    </span>
-
-                    <MapPin size={16} />
-
-                    <span>استشارة حضورية</span>
-                  </button>
-
-                </div>
-
-              </div>
+                  </div>
+                );
+              })}
 
             </div>
 

@@ -11,16 +11,18 @@ const SignIn = () => {
   const navigate = useNavigate();
   
   const login = async (e) => {
-    e.preventDefault();
-    
-    if (email === "h@gmail.com" && password === "1234") {
-      navigate("/client");
-    } else if (email === "l@gmail.com" && password === "1234") {
-      navigate("/lawyer");
-    } else {
-      alert("البريد الإلكتروني أو كلمة المرور غير صحيحة!");
-    }
-  };
+  e.preventDefault();
+
+  if (email === "h@gmail.com" && password === "1234") {
+    navigate("/client");
+  } else if (email === "l@gmail.com" && password === "1234") {
+    navigate("/lawyer");
+  } else if (email === "a@gmail.com" && password === "1234") {
+    navigate("/admin");
+  } else {
+    alert("البريد الإلكتروني أو كلمة المرور غير صحيحة!");
+  }
+};
 
   return (
     <div className="signin-layout">
