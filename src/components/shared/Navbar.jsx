@@ -18,17 +18,21 @@ const AUTH_LINKS = [
   { path: '/signup', label: 'إنشاء حساب' },
 ];
 
+
+
 export const Navbar = () => {
   const location = useLocation(); 
-  if (location.pathname === '/signin' ||location.pathname==='/signup/client'
-    ||location.pathname==='/signup/lawyer'|| location.pathname === '/signup') {
-    return null; 
-  }
+  if (!MAIN_LINKS.some(link => link.path === location.pathname)) {
+  return null;
+}
   return (
         <header className="navbar-wrapper">
     <nav className="navbar-container">
 
-        <Link to="/" className="navbar-logo">
+        <Link to="/" 
+         onClick={() => window.scrollTo(0, 0)}
+
+        className="navbar-logo">
           <div className="logo-icon">
           <Scale size={24} color="white" />
 
@@ -41,7 +45,8 @@ export const Navbar = () => {
 
       <div className="main-links">
         {MAIN_LINKS.map((link) => (
-          <NavLink key={link.path} to={link.path} 
+          <NavLink key={link.path} to={link.path}  
+         onClick={() => window.scrollTo(0, 0)}
           className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
             {link.label}
           </NavLink>

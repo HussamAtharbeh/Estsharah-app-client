@@ -3,7 +3,6 @@ import '../../styles/pagesStyle/vistorsStyle/About.css';
 import visionImg from '../../assets/images/aboutUs.jpg';
 import Values from '../../components/shared/Values';
 import Stats from '../../components/shared/Stats';
-import Footer from '../../components/shared/Footer';
 
 const About = () => {
   return (
@@ -44,7 +43,6 @@ const About = () => {
 
       <Values />
       <Stats />
-      <Footer />
     </div>
   );
 };

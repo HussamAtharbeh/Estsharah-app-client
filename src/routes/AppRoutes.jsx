@@ -11,6 +11,8 @@ import Contact from '../pages/vistors/Contact';
 import SignUp from '../pages/login/SignUp';
 import SignUpClient from '../pages/login/SignUpClient';
 import SignUpLawyer from '../pages/login/SignUpLawyer';
+import LawyerProfile from '../components/lawyers/LawyerProfile';
+import NotFound from '../pages/vistors/NotFound';
 export const AppRoutes = () => {
   return (
     <Routes>
@@ -24,6 +26,8 @@ export const AppRoutes = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signup/client" element={<SignUpClient />} />
       <Route path="/signup/lawyer" element={<SignUpLawyer />} />
+      <Route path="/lawyer/profile" element={<LawyerProfile />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

@@ -15,7 +15,6 @@ import '../../styles/pagesStyle/vistorsStyle/Home.css';
 import homeimage from '../../assets/images/homePage.jpg';
 import { Link } from 'react-router-dom';
 import Stats from '../../components/shared/Stats';
-import Footer from '../../components/shared/Footer';
 import {HowItWorks} from '../../components/shared/HowItWorks';
 
 
@@ -147,7 +146,6 @@ const Home = () => {
       <Stats />
             <HowItWorks />
 
-      <Footer />
     </div>
   );
 };

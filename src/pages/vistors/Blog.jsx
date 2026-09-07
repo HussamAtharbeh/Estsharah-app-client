@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Calendar, ArrowLeft } from 'lucide-react';
 import '../../styles/pagesStyle/vistorsStyle/Blog.css';
-import Footer from '../../components/shared/Footer';
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -115,7 +114,6 @@ return (
         ))}
       </div>
     </div>
-    <Footer />
   </div>
 );
 };
