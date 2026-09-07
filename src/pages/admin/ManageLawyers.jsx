@@ -8,6 +8,33 @@ const ManageLawyers = () => {
     { id: 4, name: 'ريم الشوبكي', initials: 'ر', spec: 'القانون الجزائي', date: '2024-02-05', status: 'نشط' }
   ]);
 
+  const toggleStatus = (id) => {
+    setLawyers((prev) =>
+      prev.map((lawyer) =>
+        lawyer.id === id
+          ? {
+              ...lawyer,
+              status: lawyer.status === 'نشط' ? 'معلق' : 'نشط'
+            }
+          : lawyer
+      )
+    );
+  };
+
+  const deleteLawyer = (id) => {
+    const lawyer = lawyers.find((item) => item.id === id);
+
+    const confirmed = window.confirm(
+      `هل أنت متأكد من حذف حساب "${lawyer?.name}"؟ لا يمكن التراجع عن هذا الإجراء.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setLawyers((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
     <div className="admin-page-container">
       <header className="admin-page-header">
@@ -29,6 +56,14 @@ const ManageLawyers = () => {
             </tr>
           </thead>
           <tbody>
+            {lawyers.length === 0 && (
+              <tr>
+                <td colSpan={5} style={{ textAlign: 'center', color: '#94a3b8' }}>
+                  لا يوجد محامين حالياً
+                </td>
+              </tr>
+            )}
+
             {lawyers.map((lawyer) => (
               <tr key={lawyer.id}>
                 <td>
@@ -46,10 +81,21 @@ const ManageLawyers = () => {
                 </td>
                 <td>
                   <div className="actions-cell">
-                    <button className={`action-btn ${lawyer.status === 'نشط' ? 'btn-suspend' : 'btn-activate'}`}>
+                    <button
+                      type="button"
+                      className={`action-btn ${lawyer.status === 'نشط' ? 'btn-suspend' : 'btn-activate'}`}
+                      onClick={() => toggleStatus(lawyer.id)}
+                    >
                       {lawyer.status === 'نشط' ? 'تعليق' : 'تفعيل'}
                     </button>
-                    <button className="action-btn btn-delete">حذف</button>
+
+                    <button
+                      type="button"
+                      className="action-btn btn-delete"
+                      onClick={() => deleteLawyer(lawyer.id)}
+                    >
+                      حذف
+                    </button>
                   </div>
                 </td>
               </tr>

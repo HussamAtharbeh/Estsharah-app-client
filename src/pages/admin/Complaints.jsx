@@ -23,13 +23,50 @@ const Complaints = () => {
     }
   ]);
 
+  const resolveComplaint = (id) => {
+    setComplaints((prev) =>
+      prev.map((cmp) =>
+        cmp.id === id
+          ? { ...cmp, status: 'تم الحل' }
+          : cmp
+      )
+    );
+  };
+
+  const archiveComplaint = (id) => {
+    const complaint = complaints.find((item) => item.id === id);
+
+    const confirmed = window.confirm(
+      `هل أنت متأكد من رفض وأرشفة الشكوى "${complaint?.id}"؟`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setComplaints((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
     <div className="admin-page-container">
-      
+
+      <header className="admin-page-header">
+        <div className="header-title">
+          <h1>الشكاوى</h1>
+          <p>مراجعة شكاوى العملاء والمحامين ومعالجتها</p>
+        </div>
+      </header>
+
       <div className="complaints-list">
+        {complaints.length === 0 && (
+          <p style={{ textAlign: 'center', color: '#94a3b8' }}>
+            لا يوجد شكاوى حالياً
+          </p>
+        )}
+
         {complaints.map((cmp) => (
           <div key={cmp.id} className={`complaint-card ${cmp.status === 'مفتوحة' ? 'open-cmp' : 'resolved-cmp'}`}>
-            
+
             <div className="cmp-header">
               <span className="cmp-date">{cmp.date}</span>
               <div className="cmp-badges">
@@ -63,8 +100,19 @@ const Complaints = () => {
 
             {cmp.status === 'مفتوحة' && (
               <div className="cmp-actions">
-                <button className="cmp-btn btn-archive">رفض وأرشفة</button>
-                <button className="cmp-btn btn-resolve">
+                <button
+                  type="button"
+                  className="cmp-btn btn-archive"
+                  onClick={() => archiveComplaint(cmp.id)}
+                >
+                  رفض وأرشفة
+                </button>
+
+                <button
+                  type="button"
+                  className="cmp-btn btn-resolve"
+                  onClick={() => resolveComplaint(cmp.id)}
+                >
                   <Check size={18} />
                   <span>تم معالجة الشكوى</span>
                 </button>

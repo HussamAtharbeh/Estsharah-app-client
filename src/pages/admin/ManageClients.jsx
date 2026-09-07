@@ -7,6 +7,33 @@ const ManageClients = () => {
     { id: 3, name: 'عبدالله صالح', initials: 'ع', email: 'a.saleh@mail.com', count: 3, status: 'معلق' }
   ]);
 
+  const toggleStatus = (id) => {
+    setClients((prev) =>
+      prev.map((client) =>
+        client.id === id
+          ? {
+              ...client,
+              status: client.status === 'نشط' ? 'معلق' : 'نشط'
+            }
+          : client
+      )
+    );
+  };
+
+  const deleteClient = (id) => {
+    const client = clients.find((item) => item.id === id);
+
+    const confirmed = window.confirm(
+      `هل أنت متأكد من حذف حساب "${client?.name}"؟ لا يمكن التراجع عن هذا الإجراء.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setClients((prev) => prev.filter((item) => item.id !== id));
+  };
+
   return (
     <div className="admin-page-container">
       <header className="admin-page-header">
@@ -28,6 +55,14 @@ const ManageClients = () => {
             </tr>
           </thead>
           <tbody>
+            {clients.length === 0 && (
+              <tr>
+                <td colSpan={5} style={{ textAlign: 'center', color: '#94a3b8' }}>
+                  لا يوجد عملاء حالياً
+                </td>
+              </tr>
+            )}
+
             {clients.map((client) => (
               <tr key={client.id}>
                 <td>
@@ -45,10 +80,21 @@ const ManageClients = () => {
                 </td>
                 <td>
                   <div className="actions-cell">
-                    <button className={`action-btn ${client.status === 'نشط' ? 'btn-suspend' : 'btn-activate'}`}>
+                    <button
+                      type="button"
+                      className={`action-btn ${client.status === 'نشط' ? 'btn-suspend' : 'btn-activate'}`}
+                      onClick={() => toggleStatus(client.id)}
+                    >
                       {client.status === 'نشط' ? 'تعليق' : 'تفعيل'}
                     </button>
-                    <button className="action-btn btn-delete">حذف</button>
+
+                    <button
+                      type="button"
+                      className="action-btn btn-delete"
+                      onClick={() => deleteClient(client.id)}
+                    >
+                      حذف
+                    </button>
                   </div>
                 </td>
               </tr>
