@@ -13,7 +13,8 @@ import {
   Video,
   MapPin
 } from 'lucide-react';
-import lawyerImg from '../../assets/images/lawyer1.jpg';
+import { getToken } from '../../utils/auth';
+import { CITIES, SPECIALIZATIONS } from '../../utils/labels';
 import '../../styles/pagesStyle/lawyerStyle/LawyerSettings.css';
 
 const CONSULTATION_TYPES = [
@@ -23,34 +24,24 @@ const CONSULTATION_TYPES = [
 ];
 
 const Settings = () => {
-  const { user, setUser } = useOutletContext();
+  const { profile, setProfile } = useOutletContext();
 
   const [formData, setFormData] = useState({
-    name: user?.name || 'صالح عذاربه',
-    city: user?.city || 'عمان',
-    specialty: user?.specialty || 'قانون تجاري',
-    experience: user?.experience || 15,
-    bio: user?.bio || 'محام متخصص في قانون تجاري مع خبرة تتجاوز 15 عاماً في المحاكم الأردنية. أتعامل مع القضايا بمهنية عالية. أهدف دائماً إلى تقديم حلول قانونية عملية وفعالة تساعد عملائي على تحقيق أهدافهم بأمان وثقة.',
-    prices: user?.prices || {
-      phone: 60,
-      video: 75,
-      office: 100
-    },
-    available: user?.available ?? true,
-    specialties: user?.specialties || [
-      'قانون تجاري وشركات',
-      'قانون العمل',
-      'قانون عقاري'
-    ],
-    consultationTypes: user?.consultationTypes || [
-      'phone',
-      'video',
-      'office'
-    ],
-    image: user?.image || lawyerImg
+    name: profile?.name ?? '',
+    city: profile?.city ?? '',
+    specialty: profile?.specialty ?? '',
+    experience: profile?.experience ?? 0,
+    bio: profile?.bio ?? '',
+    prices: profile?.prices ?? {},
+    available: profile?.available ?? true,
+    specialties: profile?.specialties ?? [],
+    consultationTypes: profile?.consultation_types ?? [],
+    image: profile?.image ?? ''
   });
 
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -78,26 +69,22 @@ const Settings = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
-    if (!file) {
-      return;
-    }
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return;
+    if (file.size > 5 * 1024 * 1024) return;
 
-    if (!file.type.startsWith('image/')) {
-      return;
-    }
+    const reader = new FileReader();
 
-    if (file.size > 5 * 1024 * 1024) {
-      return;
-    }
+    reader.onload = () => {
+      setFormData((prev) => ({
+        ...prev,
+        image: reader.result
+      }));
 
-    const imageUrl = URL.createObjectURL(file);
+      setSaved(false);
+    };
 
-    setFormData((prev) => ({
-      ...prev,
-      image: imageUrl
-    }));
-
-    setSaved(false);
+    reader.readAsDataURL(file);
   };
 
   const removeSpecialty = (specialty) => {
@@ -114,15 +101,11 @@ const Settings = () => {
   const addSpecialty = () => {
     const specialty = window.prompt('أدخل التخصص الجديد');
 
-    if (!specialty?.trim()) {
-      return;
-    }
+    if (!specialty?.trim()) return;
 
     const value = specialty.trim();
 
-    if (formData.specialties.includes(value)) {
-      return;
-    }
+    if (formData.specialties.includes(value)) return;
 
     setFormData((prev) => ({
       ...prev,
@@ -132,16 +115,23 @@ const Settings = () => {
     setSaved(false);
   };
 
-  const toggleConsultationType = (type) => {
-    setFormData((prev) => ({
-      ...prev,
-      consultationTypes: prev.consultationTypes.includes(type)
-        ? prev.consultationTypes.filter((item) => item !== type)
-        : [...prev.consultationTypes, type]
-    }));
+ const toggleConsultationType = (type) => {
+  const types = formData.consultationTypes;
 
-    setSaved(false);
-  };
+  if (types.includes(type)) {
+    setFormData({
+      ...formData,
+      consultationTypes: types.filter((item) => item !== type)
+    });
+  } else {
+    setFormData({
+      ...formData,
+      consultationTypes: [...types, type]
+    });
+  }
+
+  setSaved(false);
+};
 
   const toggleAvailability = () => {
     setFormData((prev) => ({
@@ -152,33 +142,60 @@ const Settings = () => {
     setSaved(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setError('');
+    setSaving(true);
+
     const cleanPrices = Object.fromEntries(
-      Object.entries(formData.prices).map(([key, value]) => [
-        key,
-        Number(value) || 0
-      ])
+      Object.entries(formData.prices).map(
+        ([key, value]) => [key, Number(value) || 0]
+      )
     );
 
-    const updatedUser = {
-      ...user,
-      name: formData.name.trim(),
-      city: formData.city,
-      specialty: formData.specialty,
-      experience: Number(formData.experience),
-      bio: formData.bio.trim(),
-      prices: cleanPrices,
-      available: formData.available,
-      specialties: formData.specialties,
-      consultationTypes: formData.consultationTypes,
-      image: formData.image
-    };
+    try {
+      const token = getToken();
 
-    setUser(updatedUser);
-    localStorage.setItem('lawyerUser', JSON.stringify(updatedUser));
-    setSaved(true);
+      const response = await fetch(
+        'http://localhost:5000/api/lawyers/me',
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            name: formData.name.trim(),
+            city: formData.city,
+            specialty: formData.specialty,
+            experience: Number(formData.experience),
+            bio: formData.bio.trim(),
+            prices: cleanPrices,
+            specialties: formData.specialties,
+            consultationTypes: formData.consultationTypes,
+            available: formData.available,
+            image: formData.image || undefined
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء حفظ التغييرات'
+        );
+      }
+
+      setProfile(data);
+      setSaved(true);
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -192,7 +209,9 @@ const Settings = () => {
               <Clock3 size={21} />
             </div>
 
-            <p>إدارة معلومات حسابك وملفك المهني</p>
+            <p>
+              إدارة معلومات حسابك وملفك المهني
+            </p>
           </div>
         </header>
 
@@ -216,12 +235,18 @@ const Settings = () => {
                 <h3>الصورة الشخصية</h3>
 
                 <div className="profile-image-box">
-                  <img
-                    src={formData.image}
-                    alt={formData.name}
-                  />
-                </div>
-
+  {formData.image ? (
+    <img
+      src={formData.image}
+      alt={formData.name}
+      className="card-avatar"
+    />
+  ) : (
+    <div className="card-avatar">
+      <User size={40} />
+    </div>
+  )}
+</div>
                 <label className="change-image-btn">
                   <Camera size={14} />
                   <span>تغيير الصورة</span>
@@ -268,12 +293,18 @@ const Settings = () => {
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
+                    required
                   >
-                    <option value="عمان">عمان</option>
-                    <option value="إربد">إربد</option>
-                    <option value="الزرقاء">الزرقاء</option>
-                    <option value="العقبة">العقبة</option>
-                    <option value="السلط">السلط</option>
+                    <option value="">اختر المدينة</option>
+
+                    {CITIES.map((city) => (
+                      <option
+                        key={city.value}
+                        value={city.value}
+                      >
+                        {city.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -306,13 +337,18 @@ const Settings = () => {
                   name="specialty"
                   value={formData.specialty}
                   onChange={handleChange}
+                  required
                 >
-                  <option value="قانون تجاري">قانون تجاري</option>
-                  <option value="قانون مدني">قانون مدني</option>
-                  <option value="قانون العمل">قانون العمل</option>
-                  <option value="قانون عقاري">قانون عقاري</option>
-                  <option value="الملكية الفكرية">الملكية الفكرية</option>
-                  <option value="قانون الأسرة">قانون الأسرة</option>
+                  <option value="">اختر التخصص</option>
+
+                  {SPECIALIZATIONS.map((spec) => (
+                    <option
+                      key={spec.value}
+                      value={spec.value}
+                    >
+                      {spec.label}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -322,6 +358,7 @@ const Settings = () => {
                 </label>
 
                 <div className="experience-input">
+
                   <input
                     id="experience"
                     name="experience"
@@ -333,6 +370,7 @@ const Settings = () => {
                   />
 
                   <span>سنة</span>
+
                 </div>
               </div>
 
@@ -353,7 +391,9 @@ const Settings = () => {
                     >
                       <button
                         type="button"
-                        onClick={() => removeSpecialty(specialty)}
+                        onClick={() =>
+                          removeSpecialty(specialty)
+                        }
                       >
                         <X size={12} />
                       </button>
@@ -414,54 +454,63 @@ const Settings = () => {
 
             <div className="consultation-types-list">
 
-              {CONSULTATION_TYPES.map(({ key, label, icon: Icon }) => {
-                const isSelected = formData.consultationTypes.includes(key);
+              {CONSULTATION_TYPES.map(
+                ({ key, label, icon: Icon }) => {
 
-                return (
-                  <div
-                    key={key}
-                    className={`consultation-type-row ${
-                      isSelected ? 'selected' : ''
-                    }`}
-                  >
+                  const isSelected =
+                    formData.consultationTypes.includes(key);
 
-                    <button
-                      type="button"
-                      className="consultation-type-toggle"
-                      onClick={() => toggleConsultationType(key)}
-                    >
-                      <span className="option-check">
-                        {isSelected && '✓'}
-                      </span>
-
-                      <Icon size={16} />
-
-                      <span>{label}</span>
-                    </button>
-
+                  return (
                     <div
-                      className={`consultation-price-input ${
-                        isSelected ? '' : 'disabled'
+                      key={key}
+                      className={`consultation-type-row ${
+                        isSelected ? 'selected' : ''
                       }`}
                     >
-                      <input
-                        type="number"
-                        min="0"
-                        value={formData.prices[key] ?? ''}
-                        onChange={(e) =>
-                          handlePriceChange(key, e.target.value)
+
+                      <button
+                        type="button"
+                        className="consultation-type-toggle"
+                        onClick={() =>
+                          toggleConsultationType(key)
                         }
-                        disabled={!isSelected}
-                        required={isSelected}
-                        placeholder="0"
-                      />
+                      >
+                        <span className="option-check">
+                          {isSelected && '✓'}
+                        </span>
 
-                      <span>د.أ</span>
+                        <Icon size={16} />
+
+                        <span>{label}</span>
+                      </button>
+
+                      <div
+                        className={`consultation-price-input ${
+                          isSelected ? '' : 'disabled'
+                        }`}
+                      >
+                        <input
+                          type="number"
+                          min="1"
+                          value={formData.prices[key] ?? ''}
+                          onChange={(e) =>
+                            handlePriceChange(
+                              key,
+                              e.target.value
+                            )
+                          }
+                          disabled={!isSelected}
+                          required={isSelected}
+                          placeholder="0"
+                        />
+
+                        <span>د.أ</span>
+                      </div>
+
                     </div>
-
-                  </div>
-                );
-              })}
+                  );
+                }
+              )}
 
             </div>
 
@@ -534,16 +583,27 @@ const Settings = () => {
 
           </section>
 
+          {error && (
+            <p className="form-error">
+              {error}
+            </p>
+          )}
+
           <button
             type="submit"
             className={`save-settings-btn ${
               saved ? 'saved' : ''
             }`}
+            disabled={saving}
           >
             <Save size={17} />
 
             <span>
-              {saved ? 'تم حفظ التغييرات' : 'حفظ التغييرات'}
+              {saving
+                ? 'جارٍ الحفظ...'
+                : saved
+                  ? 'تم حفظ التغييرات'
+                  : 'حفظ التغييرات'}
             </span>
           </button>
 

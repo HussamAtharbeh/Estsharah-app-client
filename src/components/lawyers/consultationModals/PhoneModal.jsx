@@ -19,12 +19,12 @@ const PhoneModal = ({
           <h2>رقم هاتف العميل</h2>
 
           <p>
-            العميل: {consultation.clientName}
+            العميل: {consultation.client_name}
           </p>
         </div>
 
         <div className="phone-display-box">
-          <h3>{consultation.phone}</h3>
+          <h3>{consultation.client_phone || consultation.client_account_phone || "غير متوفر"}</h3>
         </div>
 
         <button

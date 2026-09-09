@@ -1,37 +1,127 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getToken } from '../../utils/auth';
+import { USER_STATUS_LABELS, initialOf } from '../../utils/labels';
 
 const ManageClients = () => {
-  const [clients, setClients] = useState([
-    { id: 1, name: 'محمد أحمد', initials: 'م', email: 'm.ahmed@mail.com', count: 12, status: 'نشط' },
-    { id: 2, name: 'فاطمة العلي', initials: 'ف', email: 'f.ali@mail.com', count: 5, status: 'نشط' },
-    { id: 3, name: 'عبدالله صالح', initials: 'ع', email: 'a.saleh@mail.com', count: 3, status: 'معلق' }
-  ]);
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const toggleStatus = (id) => {
-    setClients((prev) =>
-      prev.map((client) =>
-        client.id === id
-          ? {
-              ...client,
-              status: client.status === 'نشط' ? 'معلق' : 'نشط'
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const reload = () => setRefreshKey((key) => key + 1);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchClients = async () => {
+      try {
+        setLoading(true);
+        setError('');
+
+        const token = getToken();
+
+        const response = await fetch(
+          'http://localhost:5000/api/users/admin/clients',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
             }
-          : client
-      )
-    );
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.message || 'حدث خطأ أثناء تحميل العملاء'
+          );
+        }
+
+        if (!cancelled) {
+          setClients(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchClients();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshKey]);
+
+  const runAction = async (action) => {
+    try {
+      await action();
+      reload();
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
-  const deleteClient = (id) => {
-    const client = clients.find((item) => item.id === id);
+  const toggleStatus = (client) => {
+    const token = getToken();
 
+    return runAction(async () => {
+      const endpoint =
+        client.status === 'active'
+          ? `http://localhost:5000/api/users/${client.id}/suspend`
+          : `http://localhost:5000/api/users/${client.id}/activate`;
+
+      const response = await fetch(endpoint, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء تغيير حالة العميل'
+        );
+      }
+    });
+  };
+
+  const remove = (client) => {
     const confirmed = window.confirm(
-      `هل أنت متأكد من حذف حساب "${client?.name}"؟ لا يمكن التراجع عن هذا الإجراء.`
+      `هل أنت متأكد من حذف حساب "${client.name}"؟ لا يمكن التراجع عن هذا الإجراء.`
     );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
-    setClients((prev) => prev.filter((item) => item.id !== id));
+    const token = getToken();
+
+    runAction(async () => {
+      const response = await fetch(
+        `http://localhost:5000/api/users/${client.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء حذف العميل'
+        );
+      }
+    });
   };
 
   return (
@@ -54,11 +144,20 @@ const ManageClients = () => {
               <th>إجراءات</th>
             </tr>
           </thead>
+
           <tbody>
-            {clients.length === 0 && (
+            {(loading || error || clients.length === 0) && (
               <tr>
-                <td colSpan={5} style={{ textAlign: 'center', color: '#94a3b8' }}>
-                  لا يوجد عملاء حالياً
+                <td
+                  colSpan={5}
+                  style={{
+                    textAlign: 'center',
+                    color: '#94a3b8'
+                  }}
+                >
+                  {loading
+                    ? 'جارٍ التحميل...'
+                    : error || 'لا يوجد عملاء حالياً'}
                 </td>
               </tr>
             )}
@@ -67,31 +166,56 @@ const ManageClients = () => {
               <tr key={client.id}>
                 <td>
                   <div className="user-cell">
-                    <div className="user-avatar client-avatar">{client.initials}</div>
-                    <span className="user-name">{client.name}</span>
+                    <div className="user-avatar client-avatar">
+                      {initialOf(client.name)}
+                    </div>
+
+                    <span className="user-name">
+                      {client.name}
+                    </span>
                   </div>
                 </td>
-                <td className="email-cell">{client.email}</td>
-                <td className="count-cell">{client.count}</td>
+
+                <td className="email-cell">
+                  {client.email}
+                </td>
+
+                <td className="count-cell">
+                  {client.consultations_count}
+                </td>
+
                 <td>
-                  <span className={`status-badge ${client.status === 'نشط' ? 'active' : 'suspended'}`}>
-                    {client.status}
+                  <span
+                    className={`status-badge ${
+                      client.status === 'active'
+                        ? 'active'
+                        : 'suspended'
+                    }`}
+                  >
+                    {USER_STATUS_LABELS[client.status]}
                   </span>
                 </td>
+
                 <td>
                   <div className="actions-cell">
                     <button
                       type="button"
-                      className={`action-btn ${client.status === 'نشط' ? 'btn-suspend' : 'btn-activate'}`}
-                      onClick={() => toggleStatus(client.id)}
+                      className={`action-btn ${
+                        client.status === 'active'
+                          ? 'btn-suspend'
+                          : 'btn-activate'
+                      }`}
+                      onClick={() => toggleStatus(client)}
                     >
-                      {client.status === 'نشط' ? 'تعليق' : 'تفعيل'}
+                      {client.status === 'active'
+                        ? 'تعليق'
+                        : 'تفعيل'}
                     </button>
 
                     <button
                       type="button"
                       className="action-btn btn-delete"
-                      onClick={() => deleteClient(client.id)}
+                      onClick={() => remove(client)}
                     >
                       حذف
                     </button>

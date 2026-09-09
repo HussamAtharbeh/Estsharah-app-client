@@ -23,7 +23,7 @@ const LocationModal = ({
 
           <p>
             سيتم إرسال الموقع لبريد العميل{' '}
-            {consultation.clientName}
+            {consultation.client_name}
           </p>
         </div>
 

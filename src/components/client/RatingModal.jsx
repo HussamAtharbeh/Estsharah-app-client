@@ -1,27 +1,65 @@
 import React, { useState } from 'react';
 import { Star, X } from 'lucide-react';
+
+import { getToken } from '../../utils/auth';
+
 import '../../styles/componentsStyle/clientStyle/RatingModal.css';
 
-const RatingModal = ({ consultation, onClose }) => {
-  const [rating, setRating] = useState(3);
+const RatingModal = ({ consultation, onClose, onSaved }) => {
+  const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const review = {
-      consultationId: consultation.id,
-      rating,
-      comment
-    };
+    if (rating === 0) {
+      setError('يرجى اختيار التقييم');
+      return;
+    }
 
-    console.log(review);
-    onClose();
+    setError('');
+    setSaving(true);
+
+    try {
+      const token = getToken();
+
+      const response = await fetch(
+        `http://localhost:5000/api/consultations/${consultation.id}/rating`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            rating,
+            comment
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء إرسال التقييم'
+        );
+      }
+
+      onSaved();
+    } catch (err) {
+      setError(err.message);
+      setSaving(false);
+    }
   };
 
   return (
-    <div className="rating-overlay" onClick={onClose}>
-
+    <div
+      className="rating-overlay"
+      onClick={onClose}
+    >
       <div
         className="rating-modal"
         onClick={(e) => e.stopPropagation()}
@@ -43,7 +81,7 @@ const RatingModal = ({ consultation, onClose }) => {
         </h2>
 
         <p>
-          كيف كانت استشارتك مع {consultation.lawyer}؟
+          كيف كانت استشارتك مع المحامي {consultation.lawyer_name}؟
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -54,7 +92,10 @@ const RatingModal = ({ consultation, onClose }) => {
               <button
                 type="button"
                 key={item}
-                onClick={() => setRating(item)}
+                onClick={() => {
+                  setRating(item);
+                  setError('');
+                }}
                 className={item <= rating ? 'selected' : ''}
               >
                 <Star
@@ -72,6 +113,12 @@ const RatingModal = ({ consultation, onClose }) => {
             placeholder="اكتب تعليقك..."
           />
 
+          {error && (
+            <p className="form-error">
+              {error}
+            </p>
+          )}
+
           <div className="rating-actions">
 
             <button
@@ -85,8 +132,11 @@ const RatingModal = ({ consultation, onClose }) => {
             <button
               type="submit"
               className="rating-submit"
+              disabled={saving}
             >
-              إرسال التقييم
+              {saving
+                ? 'جارٍ الإرسال...'
+                : 'إرسال التقييم'}
             </button>
 
           </div>
@@ -94,7 +144,6 @@ const RatingModal = ({ consultation, onClose }) => {
         </form>
 
       </div>
-
     </div>
   );
 };

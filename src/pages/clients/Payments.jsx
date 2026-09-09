@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FileText,
   UserRound,
@@ -7,55 +7,74 @@ import {
   RotateCcw,
   CreditCard
 } from 'lucide-react';
+
+import { getToken } from '../../utils/auth';
+
+import {
+  PAYMENT_STATUS_LABELS,
+  formatDate,
+  formatPrice
+} from '../../utils/labels';
+
 import '../../styles/pagesStyle/clientStyle/Payments.css';
 
-const payments = [
-  {
-    id: 'PAY-001',
-    consultation: 'نزاع عقاري - مراجعة العقود',
-    lawyer: 'خالد العمري',
-    amount: '95 د.أ',
-    date: '2025-01-10',
-    status: 'مدفوع'
-  },
-  {
-    id: 'PAY-002',
-    consultation: 'استشارة قانون الأسرة',
-    lawyer: 'سارة الطراونة',
-    amount: '55 د.أ',
-    date: '2025-01-08',
-    status: 'مدفوع'
-  },
-  {
-    id: 'PAY-003',
-    consultation: 'مراجعة عقد تجاري دولي',
-    lawyer: 'ريم الشوبكي',
-    amount: '140 د.أ',
-    date: '2025-01-05',
-    status: 'مدفوع'
-  },
-  {
-    id: 'PAY-004',
-    consultation: 'تأسيس شركة ذات مسؤولية محدودة',
-    lawyer: 'خالد العمري',
-    amount: '125 د.أ',
-    date: '2024-12-15',
-    status: 'مسترجع'
-  }
-];
-
 const getStatusIcon = (status) => {
-  return status === 'مدفوع'
+  return status === 'paid'
     ? <CircleCheck size={15} />
     : <RotateCcw size={15} />;
 };
 
 const Payments = () => {
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchPayments = async () => {
+      try {
+        setLoading(true);
+        setError('');
+
+        const token = getToken();
+
+        const response = await fetch(
+          'http://localhost:5000/api/payments/me',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.message || 'حدث خطأ أثناء تحميل المدفوعات'
+          );
+        }
+
+        setPayments(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPayments();
+  }, []);
+
   return (
     <div className="payments-page">
+
       <div className="payments-container">
+
         <div className="payments-header">
-          <span className="payments-eyebrow">المعاملات المالية</span>
+
+          <span className="payments-eyebrow">
+            المعاملات المالية
+          </span>
 
           <h1 className="payments-title">
             سجل المدفوعات
@@ -64,11 +83,15 @@ const Payments = () => {
           <p className="payments-description">
             عرض جميع عمليات الدفع المرتبطة باستشاراتك القانونية
           </p>
+
         </div>
 
         <div className="payments-card">
+
           <div className="payments-table-wrapper">
+
             <table className="payments-table">
+
               <colgroup>
                 <col className="payment-column-id" />
                 <col className="payment-column-consultation" />
@@ -90,72 +113,112 @@ const Payments = () => {
               </thead>
 
               <tbody>
+
+                {(loading ||
+                  error ||
+                  payments.length === 0) && (
+                  <tr>
+                    <td
+                      colSpan={6}
+                      style={{
+                        textAlign: 'center',
+                        color: '#94a3b8'
+                      }}
+                    >
+                      {loading
+                        ? 'جارٍ التحميل...'
+                        : error ||
+                          'لا توجد مدفوعات حتى الآن'}
+                    </td>
+                  </tr>
+                )}
+
                 {payments.map((payment) => (
                   <tr key={payment.id}>
+
                     <td>
                       <span className="payment-id">
-                        {payment.id}
+                        PAY-
+                        {String(payment.id).padStart(3, '0')}
                       </span>
                     </td>
 
                     <td>
                       <div className="consultation-cell">
+
                         <div className="consultation-icon">
                           <FileText size={18} />
                         </div>
 
                         <span className="consultation-name">
-                          {payment.consultation}
+                          {payment.consultation_title}
                         </span>
+
                       </div>
                     </td>
 
                     <td>
                       <div className="lawyer-cell">
+
                         <div className="lawyer-icon">
                           <UserRound size={17} />
                         </div>
 
                         <span className="lawyer-name">
-                          {payment.lawyer}
+                          {payment.lawyer_name}
                         </span>
+
                       </div>
                     </td>
 
                     <td>
                       <span className="payment-amount">
-                        {payment.amount}
+                        {formatPrice(payment.amount)}
                       </span>
                     </td>
 
                     <td>
                       <div className="payment-date">
+
                         <CalendarDays size={16} />
-                        <span>{payment.date}</span>
+
+                        <span>
+                          {formatDate(payment.created_at)}
+                        </span>
+
                       </div>
                     </td>
 
                     <td>
                       <span
                         className={`payment-status ${
-                          payment.status === 'مدفوع'
+                          payment.status === 'paid'
                             ? 'status-paid'
                             : 'status-refunded'
                         }`}
                       >
                         {getStatusIcon(payment.status)}
-                        {payment.status}
+
+                        {PAYMENT_STATUS_LABELS[
+                          payment.status
+                        ]}
                       </span>
                     </td>
+
                   </tr>
                 ))}
+
               </tbody>
+
             </table>
+
           </div>
 
           <div className="payments-footer">
+
             <div className="payments-footer-info">
               <CreditCard size={18} />
+
               <span>
                 جميع المدفوعات مرتبطة باستشاراتك القانونية
               </span>
@@ -164,9 +227,13 @@ const Payments = () => {
             <span className="payments-count">
               {payments.length} عمليات
             </span>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 };

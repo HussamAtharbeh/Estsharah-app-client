@@ -24,7 +24,7 @@ const ComplaintModal = ({
         <div className="modal-header-centered">
           <h2>تقديم شكوى</h2>
           <p>
-            شكوى بحق العميل {consultation.clientName}
+            شكوى بحق العميل {consultation.client_name}
           </p>
         </div>
 

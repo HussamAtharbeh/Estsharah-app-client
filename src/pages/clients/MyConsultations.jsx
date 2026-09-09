@@ -1,65 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
 import ConsultationCard from '../../components/client/ConsultationCard';
 import ComplaintModal from '../../components/client/ComplaintModal';
 import RatingModal from '../../components/client/RatingModal';
+
+import { getToken } from '../../utils/auth';
+
 import '../../styles/pagesStyle/clientStyle/MyConsultations.css';
 import '../../styles/componentsStyle/clientStyle/ConsultationCard.css';
+
 const MyConsultations = () => {
+  const [consultations, setConsultations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
   const [selectedConsultation, setSelectedConsultation] = useState(null);
   const [modalType, setModalType] = useState(null);
 
-  const consultations = [
-    {
-      id: 'IST-2025-001',
-      title: 'نزاع عقاري - مراجعة العقود',
-      lawyer: 'المحامي خالد العمري',
-      date: '2025-01-10',
-      type: 'فيديو',
-      price: '95 د.أ',
-      status: 'نشطة'
-    },
-    {
-      id: 'IST-2025-002',
-      title: 'استشارة قانون الأسرة',
-      lawyer: 'المحامي سارة الطراونة',
-      date: '2025-01-08',
-      type: 'هاتفي',
-      price: '55 د.أ',
-      status: 'مكتملة',
-      rated: true
-    },
-    {
-      id: 'IST-2025-003',
-      title: 'مراجعة عقد تجاري دولي',
-      lawyer: 'المحامي ريم الشوبكي',
-      date: '2025-01-05',
-      type: 'مكتبي',
-      price: '140 د.أ',
-      status: 'مكتملة',
-      rated: true
-    },
-    {
-      id: 'IST-2025-004',
-      title: 'استشارة ملكية فكرية',
-      lawyer: 'المحامي فارس البشير',
-      date: '2024-12-20',
-      type: 'فيديو',
-      price: '100 د.أ',
-      status: 'مكتملة',
-      rated: true
-    },
-    {
-      id: 'IST-2025-005',
-      title: 'تأسيس شركة ذات مسؤولية محدودة',
-      lawyer: 'المحامي خالد العمري',
-      date: '2024-12-15',
-      type: 'مكتبي',
-      price: '125 د.أ',
-      status: 'ملغاة'
-    }
-  ];
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const reload = () => {
+    setRefreshKey((key) => key + 1);
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchConsultations = async () => {
+      try {
+        setLoading(true);
+        setError('');
+
+        const token = getToken();
+
+        const response = await fetch(
+          'http://localhost:5000/api/consultations/me',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.message || 'حدث خطأ أثناء تحميل الاستشارات'
+          );
+        }
+
+        if (!cancelled) {
+          setConsultations(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchConsultations();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshKey]);
 
   const openComplaint = (consultation) => {
     setSelectedConsultation(consultation);
@@ -74,6 +86,47 @@ const MyConsultations = () => {
   const closeModal = () => {
     setSelectedConsultation(null);
     setModalType(null);
+  };
+
+  const handleSaved = () => {
+    closeModal();
+    reload();
+  };
+
+  const handleCancel = async (consultation) => {
+    const confirmed = window.confirm(
+      `هل أنت متأكد من إلغاء الاستشارة "${consultation.title}"؟`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const token = getToken();
+
+      const response = await fetch(
+        `http://localhost:5000/api/consultations/${consultation.id}/cancel`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء إلغاء الاستشارة'
+        );
+      }
+
+      reload();
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (
@@ -99,12 +152,43 @@ const MyConsultations = () => {
 
         <div className="consultations-list">
 
+          {loading && (
+            <p
+              style={{
+                textAlign: 'center',
+                color: '#94a3b8'
+              }}
+            >
+              جارٍ التحميل...
+            </p>
+          )}
+
+          {!loading && error && (
+            <p className="form-error">
+              {error}
+            </p>
+          )}
+
+          {!loading &&
+            !error &&
+            consultations.length === 0 && (
+              <p
+                style={{
+                  textAlign: 'center',
+                  color: '#94a3b8'
+                }}
+              >
+                لا توجد استشارات بعد — ابدأ بحجز استشارة جديدة.
+              </p>
+            )}
+
           {consultations.map((consultation) => (
             <ConsultationCard
               key={consultation.id}
               consultation={consultation}
               onComplaint={openComplaint}
               onRating={openRating}
+              onCancel={handleCancel}
             />
           ))}
 
@@ -116,6 +200,7 @@ const MyConsultations = () => {
         <ComplaintModal
           consultation={selectedConsultation}
           onClose={closeModal}
+          onSaved={handleSaved}
         />
       )}
 
@@ -123,6 +208,7 @@ const MyConsultations = () => {
         <RatingModal
           consultation={selectedConsultation}
           onClose={closeModal}
+          onSaved={handleSaved}
         />
       )}
 

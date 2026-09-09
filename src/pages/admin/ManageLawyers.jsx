@@ -1,46 +1,183 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getToken } from '../../utils/auth';
+import {
+  USER_STATUS_LABELS,
+  formatDate,
+  initialOf,
+  specializationLabel
+} from '../../utils/labels';
 
 const ManageLawyers = () => {
-  const [lawyers, setLawyers] = useState([
-    { id: 1, name: 'خالد العمري', initials: 'خ', spec: 'قانون تجاري', date: '2024-01-15', status: 'نشط' },
-    { id: 2, name: 'سارة الطراونة', initials: 'س', spec: 'قانون الأسرة', date: '2024-03-20', status: 'نشط' },
-    { id: 3, name: 'يوسف الزعبي', initials: 'ي', spec: 'قانون العقارات', date: '2024-06-10', status: 'معلق' },
-    { id: 4, name: 'ريم الشوبكي', initials: 'ر', spec: 'القانون الجزائي', date: '2024-02-05', status: 'نشط' }
-  ]);
+  const [lawyers, setLawyers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const toggleStatus = (id) => {
-    setLawyers((prev) =>
-      prev.map((lawyer) =>
-        lawyer.id === id
-          ? {
-              ...lawyer,
-              status: lawyer.status === 'نشط' ? 'معلق' : 'نشط'
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const reload = () => setRefreshKey((key) => key + 1);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchLawyers = async () => {
+      try {
+        setLoading(true);
+        setError('');
+
+        const token = getToken();
+
+        const response = await fetch(
+          'http://localhost:5000/api/lawyers/admin/all',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
             }
-          : lawyer
-      )
-    );
-  };
+          }
+        );
 
-  const deleteLawyer = (id) => {
-    const lawyer = lawyers.find((item) => item.id === id);
+        const data = await response.json();
 
-    const confirmed = window.confirm(
-      `هل أنت متأكد من حذف حساب "${lawyer?.name}"؟ لا يمكن التراجع عن هذا الإجراء.`
-    );
+        if (!response.ok) {
+          throw new Error(
+            data.message || 'حدث خطأ أثناء تحميل المحامين'
+          );
+        }
 
-    if (!confirmed) {
-      return;
+        if (!cancelled) {
+          setLawyers(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchLawyers();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshKey]);
+
+  const runAction = async (action) => {
+    try {
+      await action();
+      reload();
+    } catch (err) {
+      alert(err.message);
     }
-
-    setLawyers((prev) => prev.filter((item) => item.id !== id));
   };
+
+  const approve = (lawyer) => {
+    const confirmed = window.confirm(
+      `هل تريد اعتماد المحامي "${lawyer.name}"؟`
+    );
+
+    if (!confirmed) return;
+
+    const token = getToken();
+
+    runAction(async () => {
+      const response = await fetch(
+        `http://localhost:5000/api/lawyers/${lawyer.id}/verify`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء اعتماد المحامي'
+        );
+      }
+    });
+  };
+
+  const toggleStatus = (lawyer) => {
+    const token = getToken();
+
+    runAction(async () => {
+      const endpoint =
+        lawyer.status === 'active'
+          ? `http://localhost:5000/api/lawyers/${lawyer.id}/suspend`
+          : `http://localhost:5000/api/lawyers/${lawyer.id}/activate`;
+
+      const response = await fetch(endpoint, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء تغيير حالة المحامي'
+        );
+      }
+    });
+  };
+
+  const remove = (lawyer) => {
+    const confirmed = window.confirm(
+      `هل أنت متأكد من حذف حساب "${lawyer.name}"؟ لا يمكن التراجع عن هذا الإجراء.`
+    );
+
+    if (!confirmed) return;
+
+    const token = getToken();
+
+    runAction(async () => {
+      const response = await fetch(
+        `http://localhost:5000/api/lawyers/${lawyer.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء حذف المحامي'
+        );
+      }
+    });
+  };
+
+  const viewDocument = (lawyer) => {
+  if (!lawyer.document_url) {
+    alert('لا توجد وثيقة مرفوعة لهذا المحامي');
+    return;
+  }
+
+  const documentUrl = `http://localhost:5000${lawyer.document_url}`;
+
+  window.open(documentUrl, '_blank', 'noopener,noreferrer');
+};
 
   return (
     <div className="admin-page-container">
       <header className="admin-page-header">
         <div className="header-title">
           <h1>إدارة حسابات المحامين</h1>
-          <p>تعليق أو حذف حسابات المحامين المسجلين</p>
+          <p>
+            مراجعة الوثائق، اعتماد، تعليق أو حذف حسابات المحامين
+          </p>
         </div>
       </header>
 
@@ -50,16 +187,28 @@ const ManageLawyers = () => {
             <tr>
               <th>المحامي</th>
               <th>التخصص</th>
+              <th>الرقم النقابي</th>
               <th>تاريخ الانضمام</th>
+              <th>الوثيقة</th>
+              <th>التوثيق</th>
               <th>الحالة</th>
               <th>إجراءات</th>
             </tr>
           </thead>
+
           <tbody>
-            {lawyers.length === 0 && (
+            {(loading || error || lawyers.length === 0) && (
               <tr>
-                <td colSpan={5} style={{ textAlign: 'center', color: '#94a3b8' }}>
-                  لا يوجد محامين حالياً
+                <td
+                  colSpan={8}
+                  style={{
+                    textAlign: 'center',
+                    color: '#94a3b8'
+                  }}
+                >
+                  {loading
+                    ? 'جارٍ التحميل...'
+                    : error || 'لا يوجد محامين حالياً'}
                 </td>
               </tr>
             )}
@@ -68,31 +217,100 @@ const ManageLawyers = () => {
               <tr key={lawyer.id}>
                 <td>
                   <div className="user-cell">
-                    <div className="user-avatar">{lawyer.initials}</div>
-                    <span className="user-name">{lawyer.name}</span>
+                    <div className="user-avatar">
+                      {initialOf(lawyer.name)}
+                    </div>
+
+                    <span className="user-name">
+                      {lawyer.name}
+                    </span>
                   </div>
                 </td>
-                <td>{lawyer.spec}</td>
-                <td className="date-cell">{lawyer.date}</td>
+
                 <td>
-                  <span className={`status-badge ${lawyer.status === 'نشط' ? 'active' : 'suspended'}`}>
-                    {lawyer.status}
-                  </span>
+                  {specializationLabel(lawyer.specialty)}
                 </td>
+
+                <td className="email-cell">
+                  {lawyer.bar_number || '—'}
+                </td>
+
+                <td className="date-cell">
+                  {formatDate(lawyer.created_at)}
+                </td>
+
                 <td>
-                  <div className="actions-cell">
+                  {lawyer.document_url ? (
                     <button
                       type="button"
-                      className={`action-btn ${lawyer.status === 'نشط' ? 'btn-suspend' : 'btn-activate'}`}
-                      onClick={() => toggleStatus(lawyer.id)}
+                      className="action-btn btn-activate"
+                      onClick={() => viewDocument(lawyer)}
                     >
-                      {lawyer.status === 'نشط' ? 'تعليق' : 'تفعيل'}
+                      عرض الوثيقة
+                    </button>
+                  ) : (
+                    <span style={{ color: '#94a3b8' }}>
+                      لا توجد
+                    </span>
+                  )}
+                </td>
+
+                <td>
+                  <span
+                    className={`status-badge ${
+                      lawyer.verified
+                        ? 'active'
+                        : 'suspended'
+                    }`}
+                  >
+                    {lawyer.verified
+                      ? 'موثّق'
+                      : 'بانتظار المراجعة'}
+                  </span>
+                </td>
+
+                <td>
+                  <span
+                    className={`status-badge ${
+                      lawyer.status === 'active'
+                        ? 'active'
+                        : 'suspended'
+                    }`}
+                  >
+                    {USER_STATUS_LABELS[lawyer.status]}
+                  </span>
+                </td>
+
+                <td>
+                  <div className="actions-cell">
+                    {!lawyer.verified && (
+                      <button
+                        type="button"
+                        className="action-btn btn-activate"
+                        onClick={() => approve(lawyer)}
+                      >
+                        اعتماد
+                      </button>
+                    )}
+
+                    <button
+                      type="button"
+                      className={`action-btn ${
+                        lawyer.status === 'active'
+                          ? 'btn-suspend'
+                          : 'btn-activate'
+                      }`}
+                      onClick={() => toggleStatus(lawyer)}
+                    >
+                      {lawyer.status === 'active'
+                        ? 'تعليق'
+                        : 'تفعيل'}
                     </button>
 
                     <button
                       type="button"
                       className="action-btn btn-delete"
-                      onClick={() => deleteLawyer(lawyer.id)}
+                      onClick={() => remove(lawyer)}
                     >
                       حذف
                     </button>

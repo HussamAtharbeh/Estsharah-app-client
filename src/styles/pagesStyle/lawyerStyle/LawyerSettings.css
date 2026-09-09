@@ -52,7 +52,6 @@
   font-size: 0.9rem;
 }
 
-/* ===== Cards ===== */
 
 .settings-card {
   width: 100%;
@@ -93,7 +92,6 @@
   flex-shrink: 0;
 }
 
-/* ===== Personal info ===== */
 
 .personal-settings {
   display: grid;
@@ -229,7 +227,6 @@
   padding-left: 32px;
 }
 
-/* ===== Professional info ===== */
 
 .professional-fields {
   display: grid;
@@ -347,7 +344,6 @@
   direction: ltr;
 }
 
-/* ===== Consultations & pricing (per type) ===== */
 
 .consultation-types-list {
   display: flex;
@@ -478,7 +474,6 @@
   }
 }
 
-/* ===== Availability ===== */
 
 .availability-section {
   display: grid;
@@ -602,7 +597,6 @@
   font-size: 0.7rem;
 }
 
-/* ===== Save button ===== */
 
 .save-settings-btn {
   width: 100%;
@@ -647,7 +641,6 @@
   color: #ffffff;
 }
 
-/* ===== Responsive ===== */
 
 @media (max-width: 850px) {
   .personal-settings {

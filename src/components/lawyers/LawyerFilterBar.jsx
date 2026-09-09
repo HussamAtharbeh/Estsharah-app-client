@@ -1,33 +1,12 @@
 import React from 'react';
 import { Search, MapPin, Briefcase, Filter } from 'lucide-react';
+import { CITIES, SPECIALIZATIONS } from '../../utils/labels';
 import '../../styles/componentsStyle/lawersStyle/LawyerFilterBar.css';
 
-export const SPECIALIZATIONS = [
-  { value: "commercial", label: "قانون تجاري وشركات" },
-  { value: "civil", label: "قانون مدني" },
-  { value: "criminal", label: "قانون جنائي" },
-  { value: "family", label: "قانون أحوال شخصية" },
-  { value: "labor", label: "قانون العمل" },
-  { value: "real-estate", label: "قانون عقاري" },
-];
+export { CITIES, SPECIALIZATIONS };
 
-export const CITIES = [
-  { value: "amman", label: "عمان" },
-  { value: "zarqa", label: "الزرقاء" },
-  { value: "irbid", label: "إربد" },
-  { value: "aqaba", label: "العقبة" },
-  { value: "salt", label: "السلط" },
-  { value: "madaba", label: "مادبا" },
-  { value: "jerash", label: "جرش" },
-  { value: "ajloun", label: "عجلون" },
-  { value: "karak", label: "الكرك" },
-  { value: "tafilah", label: "الطفيلة" },
-  { value: "maan", label: "معان" },
-  { value: "mafraq", label: "المفرق" },
-];
-
-const LawyerFilterBar = ({ 
-  searchTerm, 
+const LawyerFilterBar = ({
+  searchTerm,
   setSearchTerm,
   specialization,
   setSpecialization,
@@ -35,8 +14,8 @@ const LawyerFilterBar = ({
   setCity,
   sortBy,
   setSortBy,
-  isAvailableOnly, 
-  setIsAvailableOnly 
+  isAvailableOnly,
+  setIsAvailableOnly
 }) => {
   return (
     <div className="filter-bar">
@@ -45,12 +24,12 @@ const LawyerFilterBar = ({
           <label>بحث ذكي</label>
           <div className="input-with-icon">
             <Search size={18} />
-            <input 
-              type="text" 
-              placeholder="الاسم، التخصص..." 
-              value={searchTerm} 
-              onChange={(e) => setSearchTerm(e.target.value)} 
-              dir="auto" 
+            <input
+              type="text"
+              placeholder="الاسم، التخصص..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              dir="auto"
             />
           </div>
         </div>

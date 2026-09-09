@@ -48,7 +48,6 @@
   font-size: 0.95rem;
 }
 
-/* Tables Styling */
 .admin-table-wrapper {
   background: #ffffff;
   border-radius: 20px;
@@ -192,7 +191,6 @@
 
 .btn-delete:hover { background: #fee2e2; }
 
-/* Complaints Styling */
 .complaints-list {
   display: flex;
   flex-direction: column;

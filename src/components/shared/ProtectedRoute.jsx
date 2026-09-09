@@ -1,19 +1,17 @@
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { getUser, homePathFor, isLoggedIn } from '../../utils/auth';
 
-const ProtectedRoute = ({ children }) => {
-  const location = useLocation();
-  const user = localStorage.getItem('user');
+const ProtectedRoute = ({ role, children }) => {
+  const user = getUser();
 
-  if (!user) {
-    const redirect = `${location.pathname}${location.search}`;
+  if (!isLoggedIn()) {
+    window.location.href = '/signin';
+    return null;
+  }
 
-    return (
-      <Navigate
-        to={`/login?redirect=${encodeURIComponent(redirect)}`}
-        replace
-      />
-    );
+  if (role && user?.role !== role) {
+    window.location.href = homePathFor(user?.role);
+    return null;
   }
 
   return children;

@@ -1,35 +1,60 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Scale, Mail, Lock } from 'lucide-react';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
+import { homePathFor, saveAuth } from '../../utils/auth';
 import '../../styles/pagesStyle/loginStyle/SignIn.css';
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  
-  const login = async (e) => {
-  e.preventDefault();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  if (email === "h@gmail.com" && password === "1234") {
-    navigate("/client");
-  } else if (email === "l@gmail.com" && password === "1234") {
-    navigate("/lawyer");
-  } else if (email === "a@gmail.com" && password === "1234") {
-    navigate("/admin");
-  } else {
-    alert("البريد الإلكتروني أو كلمة المرور غير صحيحة!");
-  }
-};
+  const login = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || 'حدث خطأ، حاول مرة أخرى');
+        return;
+      }
+
+      saveAuth(data.user, data.token);
+
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect');
+
+      window.location.href = redirect || homePathFor(data.user.role);
+    } catch (err) {
+      setError('تعذر الاتصال بالسيرفر، تأكد من اتصالك بالإنترنت');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="signin-layout">
       <div className="signin-form-section">
         <div className="signin-container">
 
-          <Link to="/" className="signin-logo">
+          <Link
+            to="/"
+            className="signin-logo"
+            title="العودة للصفحة الرئيسية"
+            aria-label="العودة للصفحة الرئيسية"
+          >
             <div className="logo-icon">
               <Scale size={28} color="white" />
             </div>
@@ -44,7 +69,7 @@ const SignIn = () => {
             <p>أدخل بياناتك للوصول إلى حسابك</p>
           </div>
 
-          <form className="signin-form" onSubmit={login} autoComplete="off" >
+          <form className="signin-form" onSubmit={login} autoComplete="off">
 
             <Input
               label="البريد الإلكتروني"
@@ -69,6 +94,8 @@ const SignIn = () => {
               required
             />
 
+            {error && <p className="form-error">{error}</p>}
+
             <div className="form-options">
               <label className="remember-me">
                 <input type="checkbox" />
@@ -80,8 +107,8 @@ const SignIn = () => {
               </Link>
             </div>
 
-            <Button type="submit">
-              تسجيل الدخول
+            <Button type="submit" disabled={loading}>
+              {loading ? 'جارٍ تسجيل الدخول...' : 'تسجيل الدخول'}
             </Button>
 
           </form>

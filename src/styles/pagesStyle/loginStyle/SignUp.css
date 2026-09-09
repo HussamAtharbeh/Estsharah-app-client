@@ -190,6 +190,61 @@
   margin-right: 0.4rem;
 }
 
+.signup-logo {
+  position: relative;
+}
+
+.signup-logo::after {
+  content: 'العودة للصفحة الرئيسية';
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  white-space: nowrap;
+  background: #0B1320;
+  color: #ffffff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.signup-logo::before {
+  content: '';
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 18px;
+  width: 8px;
+  height: 8px;
+  background: #0B1320;
+  transform: rotate(45deg) translateY(-4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+  pointer-events: none;
+  z-index: 29;
+}
+
+.signup-logo:hover::after,
+.signup-logo:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.signup-logo:hover::before,
+.signup-logo:focus-visible::before {
+  opacity: 1;
+  visibility: visible;
+  transform: rotate(45deg) translateY(0);
+}
 @media (max-width: 768px) {
   .signup-layout {
     height: auto;

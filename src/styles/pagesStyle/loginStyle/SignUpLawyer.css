@@ -276,9 +276,19 @@
   opacity: 1 !important;
 }
 
-.lawyer-form-card .input-wrapper input[dir="ltr"] {
-  direction: ltr !important;
-  text-align: left !important;
+.lawyer-form-card .input-wrapper input[dir="rtl"] {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.lawyer-form-card .input-wrapper input[dir="rtl"]::placeholder {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.lawyer-form-card .input-wrapper input[type="password"]::placeholder {
+  direction: rtl !important;
+  text-align: right !important;
 }
 
 .lawyer-form-card .input-wrapper input[dir="auto"] {

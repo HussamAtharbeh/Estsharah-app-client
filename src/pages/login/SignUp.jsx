@@ -11,7 +11,12 @@ const SignUp = () => {
       <div className="signup-form-section">
         <div className="signup-container">
           
-          <Link to="/" className="signup-logo">
+          <Link
+            to="/"
+            className="signup-logo"
+            title="العودة للصفحة الرئيسية"
+            aria-label="العودة للصفحة الرئيسية"
+          >
             <div className="logo-icon">
               <Scale size={28} color="white" />
             </div>

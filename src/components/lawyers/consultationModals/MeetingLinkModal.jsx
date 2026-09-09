@@ -23,7 +23,7 @@ const MeetingLinkModal = ({
 
           <p>
             سيتم إرسال الرابط لبريد العميل{' '}
-            {consultation.clientName}
+            {consultation.client_name}
           </p>
         </div>
 

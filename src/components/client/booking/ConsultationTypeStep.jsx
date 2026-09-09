@@ -1,24 +1,42 @@
 import React from 'react';
-import { Video, Phone, MapPin, Mail } from 'lucide-react';
-import { consultationTypes } from '../../../data/bookingData';
+import {
+  Video,
+  Phone,
+  MapPin,
+  Mail
+} from 'lucide-react';
+
 import '../../../styles/pagesStyle/clientStyle/ConsultationTypeStep.css';
 
-const ConsultationTypeStep = ({ selectedType, onSelect }) => {
-  const icons = {
-    video: Video,
-    phone: Phone,
-    office: MapPin
-  };
+const icons = {
+  video: Video,
+  phone: Phone,
+  office: MapPin
+};
 
+const ConsultationTypeStep = ({
+  types,
+  selectedType,
+  onSelect,
+  clientPhone,
+  onPhoneChange
+}) => {
   return (
     <section className="booking-step-card consultation-type-step">
+
       <div className="booking-step-header">
         <h2>طريقة التواصل</h2>
         <p>كيف تفضل أن تتم الاستشارة؟</p>
       </div>
 
+      {types.length === 0 && (
+        <p className="form-error">
+          لم يقم هذا المحامي بتفعيل أي نوع من الاستشارات بعد.
+        </p>
+      )}
+
       <div className="consultation-types">
-        {consultationTypes.map((type) => {
+        {types.map((type) => {
           const Icon = icons[type.id];
 
           return (
@@ -45,59 +63,57 @@ const ConsultationTypeStep = ({ selectedType, onSelect }) => {
 
       {selectedType === 'phone' && (
         <div className="consultation-extra phone-extra">
+
           <div className="consultation-extra-header">
             <Phone size={23} />
-            <h3>أرقام التواصل</h3>
+            <h3>رقم التواصل</h3>
           </div>
 
           <div className="phone-fields">
+
             <div className="phone-field">
               <label htmlFor="main-phone">
-                رقم الهاتف الرئيسي *
+                رقم الهاتف الذي سيتصل به المحامي *
               </label>
 
               <input
                 id="main-phone"
                 type="tel"
-                placeholder="079XXXXXXXX"
-                dir="ltr"
-              />
-            </div>
-
-            <div className="phone-field">
-              <label htmlFor="alternative-phone">
-                رقم بديل (اختياري)
-              </label>
-
-              <input
-                id="alternative-phone"
-                type="tel"
                 placeholder="07XXXXXXXX"
                 dir="ltr"
+                value={clientPhone}
+                onChange={(e) =>
+                  onPhoneChange(e.target.value)
+                }
+                required
               />
             </div>
+
           </div>
         </div>
       )}
 
       {selectedType === 'video' && (
         <div className="consultation-extra video-extra">
+
           <div className="consultation-extra-icon">
             <Video size={25} />
           </div>
 
           <div className="consultation-extra-content">
-            <h3>اجتماع Google Meet</h3>
+            <h3>اجتماع عبر الإنترنت</h3>
             <p>
-              سيتم إرسال رابط دعوة الاجتماع عبر Google Meet
-              إلى بريدك الإلكتروني المسجل لدينا قبل الموعد بـ 15 دقيقة.
+              سيرسل لك المحامي رابط الاجتماع بعد قبول الطلب،
+              وستجده في صفحة "استشاراتي".
             </p>
           </div>
+
         </div>
       )}
 
       {selectedType === 'office' && (
         <div className="consultation-extra office-extra">
+
           <div className="consultation-extra-icon">
             <Mail size={25} />
           </div>
@@ -105,11 +121,14 @@ const ConsultationTypeStep = ({ selectedType, onSelect }) => {
           <div className="consultation-extra-content">
             <h3>موقع مكتب المحامي</h3>
             <p>
-              تم إرسال الموقع على الإيميل.
+              سيرسل لك المحامي موقع المكتب بعد قبول الطلب،
+              وستجده في صفحة "استشاراتي".
             </p>
           </div>
+
         </div>
       )}
+
     </section>
   );
 };

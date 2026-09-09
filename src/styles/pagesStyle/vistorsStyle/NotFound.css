@@ -38,7 +38,7 @@
 }
 
 .notfound-lux-title {
-  font-family: 'Amiri', serif; /* الخط الرسمي الفخم */
+  font-family: 'Amiri', serif;
   color: #ffffff;
   font-size: 4rem;
   font-weight: 700;
@@ -127,12 +127,11 @@
   transform: translateX(-8px) scale(1.1);
 }
 
-/* التنسيقات الجديدة للروابط السريعة */
 .notfound-quick-links {
   margin-top: 35px;
   opacity: 0;
   transform: translateY(20px);
-  animation: cinematicReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards; /* تظهر في النهاية */
+  animation: cinematicReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards; 
   display: flex;
   flex-direction: column;
   align-items: center;

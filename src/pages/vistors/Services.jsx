@@ -8,6 +8,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getUser, isLoggedIn, homePathFor } from '../../utils/auth';
 import '../../styles/pagesStyle/vistorsStyle/Services.css';
 
 const SERVICES_DATA = [
@@ -66,6 +67,8 @@ const SERVICES_DATA = [
 const Services = () => {
   const [activeId, setActiveId] = useState(1);
 
+  const loggedInUser = isLoggedIn() ? getUser() : null;
+
   return (
     <div className="srv-page-container">
       <section className="srv-page-hero">
@@ -84,6 +87,15 @@ const Services = () => {
             const Icon = service.icon;
             const isActive = activeId === service.id;
 
+            const goesToSignin = service.linkTo === '/signin';
+            const effectiveLinkTo =
+              goesToSignin && loggedInUser
+                ? homePathFor(loggedInUser.role)
+                : service.linkTo;
+
+            const effectiveLinkText =
+              goesToSignin && loggedInUser ? 'الذهاب إلى حسابي' : service.linkText;
+
             return (
               <div
                 className={`srv-page-card ${isActive ? 'srv-page-card-active' : ''}`}
@@ -100,9 +112,9 @@ const Services = () => {
                 <div className="srv-page-card-footer">
                   <span className="srv-page-tag">{service.tag}</span>
 
-                  {service.available && service.linkTo ? (
-                    <Link to={service.linkTo} className="srv-page-link">
-                      {service.linkText} <ArrowLeft size={14} />
+                  {service.available && effectiveLinkTo ? (
+                    <Link to={effectiveLinkTo} className="srv-page-link">
+                      {effectiveLinkText} <ArrowLeft size={14} />
                     </Link>
                   ) : (
                     <span className="srv-page-unavailable">{service.linkText}</span>
@@ -117,6 +129,6 @@ const Services = () => {
     </div>
   );
 }
-  
+
 
 export default Services;

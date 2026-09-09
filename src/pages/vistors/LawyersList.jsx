@@ -1,46 +1,55 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Award, AlertCircle } from 'lucide-react';
 import LawyerCard from '../../components/lawyers/LawyerCard';
 import LawyerFilterBar from '../../components/lawyers/LawyerFilterBar';
 import '../../styles/pagesStyle/vistorsStyle/Lawyers.css';
-import { lawyers } from '../../data/bookingData';
 
-const LAWYERS_DATA = Object.values(lawyers);
 const LawyersList = () => {
+  const [lawyers, setLawyers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
   const [searchTerm, setSearchTerm] = useState('');
   const [specialization, setSpecialization] = useState('');
   const [city, setCity] = useState('');
   const [sortBy, setSortBy] = useState('rating');
   const [isAvailableOnly, setIsAvailableOnly] = useState(false);
 
-  const filteredLawyers = useMemo(() => {
-    return LAWYERS_DATA.filter((lawyer) => {
-      if (isAvailableOnly && !lawyer.available) return false;
-      if (city && lawyer.city !== city) return false;
+  useEffect(() => {
+    let cancelled = false;
+
+    const timer = setTimeout(async () => {
+      setLoading(true);
+      setError('');
+
       
-      if (specialization) {
-        const hasMainSpec = lawyer.spec === specialization;
-        const hasSubSpec = lawyer.specialties?.includes(specialization);
-        if (!hasMainSpec && !hasSubSpec) return false;
-      }
-      
-      if (searchTerm) {
-        const term = searchTerm.toLowerCase();
-        const matchName = lawyer.name.toLowerCase().includes(term);
-        const matchMainSpec = lawyer.spec.toLowerCase().includes(term);
-        const matchSubSpec = lawyer.specialties?.some(s => s.toLowerCase().includes(term));
-        
-        if (!matchName && !matchMainSpec && !matchSubSpec) {
-          return false;
+      const params = new URLSearchParams();
+      if (searchTerm) params.set('search', searchTerm);
+      if (specialization) params.set('specialization', specialization);
+      if (city) params.set('city', city);
+      if (sortBy) params.set('sortBy', sortBy);
+      if (isAvailableOnly) params.set('availableOnly', 'true');
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/lawyers?${params.toString()}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || 'حدث خطأ أثناء جلب المحامين');
         }
+
+        if (!cancelled) setLawyers(data);
+      } catch (err) {
+        if (!cancelled) setError(err.message);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      
-      return true;
-    }).sort((a, b) => {
-      if (sortBy === 'price_asc') return a.price - b.price;
-      if (sortBy === 'price_desc') return b.price - a.price;
-      return b.rating - a.rating;
-    });
+    }, 350);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, [searchTerm, specialization, city, sortBy, isAvailableOnly]);
 
   return (
@@ -57,7 +66,7 @@ const LawyersList = () => {
       </div>
 
       <div className="lawyers-container">
-        <LawyerFilterBar 
+        <LawyerFilterBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           specialization={specialization}
@@ -70,9 +79,19 @@ const LawyersList = () => {
           setIsAvailableOnly={setIsAvailableOnly}
         />
 
-        {filteredLawyers.length > 0 ? (
+        {loading ? (
+          <div className="no-results">
+            <h3>جارٍ تحميل المحامين...</h3>
+          </div>
+        ) : error ? (
+          <div className="no-results">
+            <AlertCircle size={48} />
+            <h3>تعذّر تحميل المحامين</h3>
+            <p>{error}</p>
+          </div>
+        ) : lawyers.length > 0 ? (
           <div className="lawyers-grid">
-            {filteredLawyers.map((lawyer) => (
+            {lawyers.map((lawyer) => (
               <LawyerCard key={lawyer.id} lawyer={lawyer} />
             ))}
           </div>

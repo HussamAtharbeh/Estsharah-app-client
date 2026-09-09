@@ -1,50 +1,132 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
 
-const Complaints = () => {
-  const [complaints, setComplaints] = useState([
-    {
-      id: 'CMP-001',
-      date: '2025-01-10',
-      type: 'تأخر في الرد',
-      status: 'تم الحل',
-      complainant: { name: 'محمد أحمد', role: 'عميل' },
-      accused: { name: 'خالد العمري', role: 'محامي' },
-      details: 'المحامي تأخر 3 أيام في الرد على استفساري رغم دفعي مسبقاً.'
-    },
-    {
-      id: 'CMP-002',
-      date: '2025-01-09',
-      type: 'إلغاء متكرر',
-      status: 'مفتوحة',
-      complainant: { name: 'ريم الشوبكي', role: 'محامي' },
-      accused: { name: 'عبدالله صالح', role: 'عميل' },
-      details: 'العميل ألغى 3 مواعيد متتالية دون إشعار مسبق.'
-    }
-  ]);
+import { getToken } from '../../utils/auth';
+import {
+  COMPLAINT_STATUS_LABELS,
+  ROLE_LABELS,
+  formatDate
+} from '../../utils/labels';
 
-  const resolveComplaint = (id) => {
-    setComplaints((prev) =>
-      prev.map((cmp) =>
-        cmp.id === id
-          ? { ...cmp, status: 'تم الحل' }
-          : cmp
-      )
-    );
+const Complaints = () => {
+  const [complaints, setComplaints] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const reload = () => {
+    setRefreshKey((key) => key + 1);
   };
 
-  const archiveComplaint = (id) => {
-    const complaint = complaints.find((item) => item.id === id);
+  useEffect(() => {
+    let cancelled = false;
 
+    const fetchComplaints = async () => {
+      try {
+        setLoading(true);
+        setError('');
+
+        const token = getToken();
+
+        const response = await fetch(
+          'http://localhost:5000/api/complaints',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.message || 'حدث خطأ أثناء تحميل الشكاوى'
+          );
+        }
+
+        if (!cancelled) {
+          setComplaints(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchComplaints();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshKey]);
+
+  const resolve = async (complaint) => {
+    try {
+      const token = getToken();
+
+      const response = await fetch(
+        `http://localhost:5000/api/complaints/${complaint.id}/resolve`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء معالجة الشكوى'
+        );
+      }
+
+      reload();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const archive = async (complaint) => {
     const confirmed = window.confirm(
-      `هل أنت متأكد من رفض وأرشفة الشكوى "${complaint?.id}"؟`
+      `هل أنت متأكد من رفض وأرشفة الشكوى رقم ${complaint.id}؟`
     );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
-    setComplaints((prev) => prev.filter((item) => item.id !== id));
+    try {
+      const token = getToken();
+
+      const response = await fetch(
+        `http://localhost:5000/api/complaints/${complaint.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'حدث خطأ أثناء أرشفة الشكوى'
+        );
+      }
+
+      reload();
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (
@@ -53,57 +135,122 @@ const Complaints = () => {
       <header className="admin-page-header">
         <div className="header-title">
           <h1>الشكاوى</h1>
-          <p>مراجعة شكاوى العملاء والمحامين ومعالجتها</p>
+
+          <p>
+            مراجعة شكاوى العملاء والمحامين ومعالجتها
+          </p>
         </div>
       </header>
 
       <div className="complaints-list">
-        {complaints.length === 0 && (
-          <p style={{ textAlign: 'center', color: '#94a3b8' }}>
-            لا يوجد شكاوى حالياً
+
+        {(loading || error || complaints.length === 0) && (
+          <p
+            style={{
+              textAlign: 'center',
+              color: '#94a3b8'
+            }}
+          >
+            {loading
+              ? 'جارٍ التحميل...'
+              : error || 'لا يوجد شكاوى حالياً'}
           </p>
         )}
 
         {complaints.map((cmp) => (
-          <div key={cmp.id} className={`complaint-card ${cmp.status === 'مفتوحة' ? 'open-cmp' : 'resolved-cmp'}`}>
+          <div
+            key={cmp.id}
+            className={`complaint-card ${
+              cmp.status === 'open'
+                ? 'open-cmp'
+                : 'resolved-cmp'
+            }`}
+          >
 
             <div className="cmp-header">
-              <span className="cmp-date">{cmp.date}</span>
+
+              <span className="cmp-date">
+                {formatDate(cmp.created_at)}
+              </span>
+
               <div className="cmp-badges">
-                <span className="cmp-badge type-badge">{cmp.type}</span>
-                <span className={`cmp-badge status-badge-cmp ${cmp.status === 'مفتوحة' ? 'open' : 'resolved'}`}>
-                  {cmp.status}
+
+                <span className="cmp-badge type-badge">
+                  {cmp.type}
                 </span>
-                <span className="cmp-badge id-badge">{cmp.id}</span>
+
+                <span
+                  className={`cmp-badge status-badge-cmp ${cmp.status}`}
+                >
+                  {COMPLAINT_STATUS_LABELS[cmp.status]}
+                </span>
+
+                <span className="cmp-badge id-badge">
+                  CMP-{String(cmp.id).padStart(3, '0')}
+                </span>
+
               </div>
             </div>
 
             <div className="cmp-body">
+
               <div className="cmp-parties">
+
                 <div className="party-box">
-                  <span className="party-label">مقدم الشكوى</span>
-                  <strong className="party-name">{cmp.complainant.name}</strong>
-                  <span className="party-role">{cmp.complainant.role}</span>
+                  <span className="party-label">
+                    مقدم الشكوى
+                  </span>
+
+                  <strong className="party-name">
+                    {cmp.complainant_name}
+                  </strong>
+
+                  <span className="party-role">
+                    {ROLE_LABELS[cmp.complainant_role]}
+                  </span>
                 </div>
+
                 <div className="party-box">
-                  <span className="party-label">المشكو بحقه</span>
-                  <strong className="party-name">{cmp.accused.name}</strong>
-                  <span className="party-role">{cmp.accused.role}</span>
+                  <span className="party-label">
+                    المشكو بحقه
+                  </span>
+
+                  <strong className="party-name">
+                    {cmp.accused_name}
+                  </strong>
+
+                  <span className="party-role">
+                    {ROLE_LABELS[cmp.accused_role]}
+                  </span>
                 </div>
+
               </div>
 
               <div className="cmp-details-box">
-                <span className="details-label">تفاصيل الشكوى</span>
-                <p>{cmp.details}</p>
+
+                <span className="details-label">
+                  تفاصيل الشكوى
+
+                  {cmp.consultation_title
+                    ? ` — ${cmp.consultation_title}`
+                    : ''}
+                </span>
+
+                <p>
+                  {cmp.details}
+                </p>
+
               </div>
+
             </div>
 
-            {cmp.status === 'مفتوحة' && (
+            {cmp.status === 'open' && (
               <div className="cmp-actions">
+
                 <button
                   type="button"
                   className="cmp-btn btn-archive"
-                  onClick={() => archiveComplaint(cmp.id)}
+                  onClick={() => archive(cmp)}
                 >
                   رفض وأرشفة
                 </button>
@@ -111,17 +258,23 @@ const Complaints = () => {
                 <button
                   type="button"
                   className="cmp-btn btn-resolve"
-                  onClick={() => resolveComplaint(cmp.id)}
+                  onClick={() => resolve(cmp)}
                 >
                   <Check size={18} />
-                  <span>تم معالجة الشكوى</span>
+
+                  <span>
+                    تم معالجة الشكوى
+                  </span>
                 </button>
+
               </div>
             )}
 
           </div>
         ))}
+
       </div>
+
     </div>
   );
 };

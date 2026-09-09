@@ -1,44 +1,22 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ChevronRight, Upload, AlertCircle } from 'lucide-react';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { AuthSidebar } from '../../components/shared/AuthSidebar';
+import { saveAuth } from '../../utils/auth';
+import { CITIES, SPECIALIZATIONS } from '../../utils/labels';
 import '../../styles/pagesStyle/loginStyle/SignUp.css';
 import '../../styles/pagesStyle/loginStyle/SignUpLawyer.css';
 
-const SPECIALIZATIONS = [
-  { value: "commercial", label: "قانون تجاري وشركات" },
-  { value: "civil", label: "قانون مدني" },
-  { value: "criminal", label: "قانون جنائي" },
-  { value: "family", label: "قانون أحوال شخصية" },
-  { value: "labor", label: "قانون العمل" },
-  { value: "real-estate", label: "قانون عقاري" },
-];
-
-const CITIES = [
-  { value: "amman", label: "عمان" },
-  { value: "zarqa", label: "الزرقاء" },
-  { value: "irbid", label: "إربد" },
-  { value: "aqaba", label: "العقبة" },
-  { value: "salt", label: "السلط" },
-  { value: "madaba", label: "مادبا" },
-  { value: "jerash", label: "جرش" },
-  { value: "ajloun", label: "عجلون" },
-  { value: "karak", label: "الكرك" },
-  { value: "tafilah", label: "الطفيلة" },
-  { value: "maan", label: "معان" },
-  { value: "mafraq", label: "المفرق" },
-];
-
 const SignUpLawyer = () => {
   const [step, setStep] = useState(1);
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
+    phone: '',
     barNumber: '',
     specialization: '',
     experience: '',
@@ -46,6 +24,8 @@ const SignUpLawyer = () => {
   });
 
   const [file, setFile] = useState(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,28 +54,71 @@ const SignUpLawyer = () => {
     ];
 
     if (!allowedTypes.includes(selectedFile.type)) {
-      alert('نوع الملف غير مدعوم');
+      setError('نوع الملف غير مدعوم');
       return;
     }
 
     if (selectedFile.size > 10 * 1024 * 1024) {
-      alert('حجم الملف يجب ألا يتجاوز 10MB');
+      setError('حجم الملف يجب ألا يتجاوز 10MB');
       return;
     }
 
+    setError('');
     setFile(selectedFile);
   };
+  const submitRegistration = async (e) => {
+  e.preventDefault();
 
-  const submitRegistration = (e) => {
-    e.preventDefault();
-    if (!file) {
-      alert("يرجى رفع صورة الهوية أو بطاقة النقابة");
+  if (!file) {
+    setError('يرجى رفع صورة الهوية أو بطاقة النقابة');
+    return;
+  }
+
+  setError('');
+  setLoading(true);
+
+  try {
+    const formDataToSend = new FormData();
+
+    formDataToSend.append('fullName', formData.fullName);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('password', formData.password);
+    formDataToSend.append('phone', formData.phone);
+    formDataToSend.append('barNumber', formData.barNumber);
+    formDataToSend.append('specialization', formData.specialization);
+    formDataToSend.append(
+      'experience',
+      Number(formData.experience) || 0
+    );
+    formDataToSend.append('city', formData.city);
+
+    formDataToSend.append('document', file);
+
+    const res = await fetch(
+      'http://localhost:5000/api/auth/signup/lawyer',
+      {
+        method: 'POST',
+        body: formDataToSend
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.message || 'حدث خطأ، حاول مرة أخرى');
+      setLoading(false);
       return;
     }
-    console.log({ ...formData, document: file });
-    navigate("/signin");
-  };
 
+    saveAuth(data.user, data.token);
+
+    window.location.href = '/lawyer';
+  } catch (err) {
+    console.error(err);
+    setError('تعذر الاتصال بالسيرفر، حاول مرة أخرى');
+    setLoading(false);
+  }
+};
   return (
     <div className="signup-layout">
       <div className="signup-form-section">
@@ -120,9 +143,10 @@ const SignUpLawyer = () => {
           {step === 1 && (
             <form className="lawyer-form-card" onSubmit={nextStep}>
               <h2>البيانات الأساسية</h2>
-              <Input label="الاسم الرباعي" name="fullName" placeholder="كما هو مسجل في النقابة" type="text" dir="auto" value={formData.fullName} onChange={handleChange} required />
+              <Input label="الاسم الرباعي" name="fullName" placeholder="كما هو مسجل في النقابة" type="text" dir="rtl" value={formData.fullName} onChange={handleChange} required />
               <Input label="البريد الإلكتروني" name="email" placeholder="name@email.com" type="email" dir="ltr" value={formData.email} onChange={handleChange} required />
-              <Input label="كلمة المرور" name="password" placeholder="8 أحرف على الأقل" type="password" dir="ltr" value={formData.password} onChange={handleChange} required />
+              <Input label="رقم الجوال" name="phone" placeholder="07X XXX XXXX" type="tel" dir="ltr" value={formData.phone} onChange={handleChange} required />
+              <Input label="كلمة المرور" name="password" placeholder="6 أحرف على الأقل" type="password" dir="ltr" minLength={6} value={formData.password} onChange={handleChange} required />
               <Button type="submit">المتابعة</Button>
             </form>
           )}
@@ -190,11 +214,17 @@ const SignUpLawyer = () => {
                 )}
               </label>
 
-            
+              {error && <p className="form-error">{error}</p>}
+
+              <p className="review-note">
+                بعد الإرسال يبقى ملفك قيد المراجعة ولا يظهر للعملاء حتى تعتمده الإدارة.
+              </p>
 
               <div className="lawyer-buttons">
                 <button type="button" className="secondary-button" onClick={previousStep}>السابق</button>
-                <Button type="submit">تقديم طلب التسجيل</Button>
+                <Button type="submit" disabled={loading}>
+                  {loading ? 'جارٍ الإرسال...' : 'تقديم طلب التسجيل'}
+                </Button>
               </div>
             </form>
           )}

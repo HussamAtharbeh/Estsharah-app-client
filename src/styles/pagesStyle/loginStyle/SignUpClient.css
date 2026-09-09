@@ -144,6 +144,35 @@
   color: #C9A86A;
   font-weight: 700;
 }
+.client-signup-form .input-wrapper select {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 1.1rem;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  color: #334155;
+  direction: rtl;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: left 1.1rem center;
+  background-size: 1.2em;
+}
+
+.client-signup-form .input-wrapper select option:first-child {
+  color: #94a3b8;
+}
+
+.client-signup-form .input-wrapper select option {
+  color: #0B1320;
+  background-color: #ffffff;
+}
 
 @media (max-width: 768px) {
   .client-form-container {

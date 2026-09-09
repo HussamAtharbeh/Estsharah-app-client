@@ -1,3 +1,5 @@
+
+
 .consultation-card-modern {
   width: 100%;
   background: #ffffff;
@@ -6,25 +8,29 @@
   padding: 25px;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 22px;
   box-shadow: 0 4px 15px rgba(11, 19, 32, 0.02);
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  direction: rtl;
 }
 
 .consultation-card-modern:hover {
-  box-shadow: 0 8px 25px rgba(11, 19, 32, 0.05);
+  box-shadow: 0 8px 25px rgba(11, 19, 32, 0.06);
+  border-color: #e2e8f0;
 }
 
 .consultation-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .header-client-info {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
+  min-width: 0;
 }
 
 .client-avatar {
@@ -41,42 +47,71 @@
   flex-shrink: 0;
 }
 
+.client-text {
+  min-width: 0;
+}
+
 .client-text h2 {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   color: #0b1320;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
 }
 
 .client-subtext {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 0.85rem;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.8rem;
   color: #64748b;
   font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.order-type {
+  background: #f8fafc;
+  border: 1px solid #eef0ef;
+  padding: 4px 10px;
+  border-radius: 8px;
 }
 
 .order-id {
   background: #f1f5f9;
-  padding: 3px 8px;
+  padding: 4px 9px;
   border-radius: 6px;
   font-family: monospace;
   font-weight: 700;
   color: #475569;
+  direction: ltr;
+}
+
+.order-date {
+  color: #94a3b8;
+}
+
+.order-title {
+  margin: 0;
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 .header-status-price {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .status-badge {
   padding: 5px 14px;
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .status-badge.active {
@@ -93,40 +128,177 @@
   color: #c9a86a;
   font-weight: 800;
   font-size: 1.15rem;
+  white-space: nowrap;
 }
+
+
+.consultation-details-section {
+  border-top: 1px solid #f1f5f9;
+  padding-top: 18px;
+}
+
+.show-details-btn {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed #e2e8f0;
+  border-radius: 12px;
+  background: #fafbfb;
+  color: #475569;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.show-details-btn:hover {
+  background: #f4f6f8;
+  border-color: #cbd5e1;
+  color: #0b1320;
+}
+
+
+.lawyer-details-panel {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: lawyerDetailsFadeIn 0.25s ease;
+}
+
+@keyframes lawyerDetailsFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.lawyer-details-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lawyer-details-title > svg {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: #fff8ea;
+  color: #c9a86a;
+}
+
+.lawyer-details-title h3 {
+  margin: 0 0 2px;
+  color: #0b1320;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.lawyer-details-title p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.78rem;
+}
+
+.lawyer-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.lawyer-detail-item {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lawyer-detail-item span {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.lawyer-detail-item strong {
+  color: #0b1320;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.lawyer-description-box {
+  background: #fafbfb;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.lawyer-description-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: #475569;
+}
+
+.lawyer-description-header svg {
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.lawyer-description-header strong {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.lawyer-description-box p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
 
 .consultation-card-actions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
+  gap: 14px;
 }
 
 .action-box {
   background: #ffffff;
   border: 1px solid #eeeeeb;
   border-radius: 16px;
-  padding: 22px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   cursor: pointer;
   transition: all 0.25s ease;
   font-family: 'Cairo', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #0b1320;
+  text-align: center;
 }
 
 .action-box:hover {
   border-color: #cbd5e1;
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
 }
 
 .action-icon-circle {
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -148,6 +320,11 @@
   color: #3b82f6;
 }
 
+.complete-action .action-icon-circle {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
 .complaint-action .action-icon-circle {
   background: #fef2f2;
   color: #ef4444;
@@ -161,31 +338,32 @@
 
 @media (max-width: 600px) {
   .consultation-card-modern {
-    padding: 20px;
-    gap: 20px;
+    padding: 18px;
+    gap: 18px;
   }
 
   .consultation-card-header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
+    align-items: stretch;
   }
 
   .header-status-price {
-    width: 100%;
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
+    width: 100%;
   }
 
   .consultation-card-actions {
     grid-template-columns: 1fr;
   }
 
-  .client-text h2 {
-    font-size: 1rem;
+  .lawyer-details-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
-  .client-subtext {
-    font-size: 0.78rem;
+  .client-text h2 {
+    font-size: 1rem;
   }
 
   .price-text {
@@ -193,6 +371,263 @@
   }
 
   .action-box {
-    padding: 18px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .lawyer-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+.consultation-card {
+  box-sizing: border-box; 
+  width: 100%;
+  min-height: 138px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px; 
+  background: transparent; 
+  border-bottom: 1px solid #eeeeeb;
+  direction: rtl;
+  transition: background-color 0.25s ease;
+}
+
+.consultation-card *,
+.consultation-card *::before,
+.consultation-card *::after {
+  box-sizing: border-box;
+}
+
+.consultation-card:hover {
+  background: #fdfdfc;
+}
+
+.consultation-card:last-child {
+  border-bottom: none;
+}
+
+.consultation-info {
+  flex: 1;
+  min-width: 0;
+  direction: rtl;
+  text-align: right;
+}
+
+.consultation-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.consultation-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 13px;
+  border-radius: 16px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.consultation-status.active {
+  background: #eef5ff;
+  color: #2875d0;
+}
+
+.consultation-status.completed {
+  background: #ecfaf3;
+  color: #009b67;
+}
+
+.consultation-status.cancelled {
+  background: #fff0f0;
+  color: #ef4444;
+}
+
+.consultation-id {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: #f4f5f5;
+  color: #64748b;
+  font-family: Arial, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  direction: ltr;
+  white-space: nowrap;
+}
+
+.consultation-title {
+  margin: 0 0 6px;
+  color: #0b1320;
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.6;
+  text-align: right;
+}
+
+.consultation-details {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: #64748b;
+  font-size: 0.77rem;
+  font-weight: 600;
+  line-height: 1.7;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.consultation-details strong {
+  color: #c49b55;
+  font-weight: 700;
+}
+
+.consultation-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  direction: rtl;
+}
+
+.complaint-btn,
+.rating-btn,
+.cancel-btn {
+  height: 40px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.complaint-btn {
+  background: #fff0f0;
+  color: #ff1f35;
+}
+
+.complaint-btn:hover {
+  transform: translateY(-2px);
+  background: #ffe4e4;
+  box-shadow: 0 5px 12px rgba(255, 31, 53, 0.08);
+}
+
+.rating-btn {
+  background: #fff9e9;
+  color: #c98719;
+}
+
+.rating-btn:hover {
+  transform: translateY(-2px);
+  background: #fff3d4;
+  box-shadow: 0 5px 12px rgba(201, 135, 25, 0.08);
+}
+
+.cancel-btn {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.cancel-btn:hover {
+  transform: translateY(-2px);
+  background: #e2e8f0;
+  box-shadow: 0 5px 12px rgba(71, 85, 105, 0.08);
+}
+
+@media (max-width: 900px) {
+  .consultation-card {
+    gap: 20px;
+    padding: 22px 20px;
+  }
+
+  .consultation-actions {
+    gap: 8px;
+  }
+
+  .complaint-btn,
+  .rating-btn,
+  .cancel-btn {
+    padding: 0 14px;
+  }
+}
+
+@media (max-width: 700px) {
+  .consultation-card {
+    min-height: auto;
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .consultation-info {
+    width: 100%;
+  }
+
+  .consultation-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .complaint-btn,
+  .rating-btn,
+  .cancel-btn {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .consultation-card {
+    padding: 18px 14px;
+  }
+
+  .consultation-top-row {
+    gap: 8px;
+  }
+
+  .consultation-title {
+    font-size: 0.98rem;
+  }
+
+  .consultation-details {
+    font-size: 0.72rem;
+    gap: 6px;
+  }
+
+  .consultation-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .complaint-btn,
+  .rating-btn,
+  .cancel-btn {
+    width: 100%;
   }
 }

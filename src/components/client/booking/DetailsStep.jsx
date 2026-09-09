@@ -1,15 +1,24 @@
 import React from 'react';
+
 import '../../../styles/pagesStyle/clientStyle/DetailsStep.css';
 
-const DetailsStep = ({ details, onChange }) => {
+const DetailsStep = ({
+  details,
+  onChange
+}) => {
   return (
     <section className="booking-step-card">
+
       <div className="booking-step-header">
         <h2>تفاصيل الطلب</h2>
-        <p>أخبر المحامي بتفاصيل الموضوع الذي تحتاج الاستشارة بشأنه.</p>
+
+        <p>
+          أخبر المحامي بتفاصيل الموضوع الذي تحتاج الاستشارة بشأنه.
+        </p>
       </div>
 
       <div className="details-form">
+
         <div className="details-field">
           <label htmlFor="consultation-title">
             عنوان الاستشارة
@@ -40,7 +49,9 @@ const DetailsStep = ({ details, onChange }) => {
             rows="7"
           />
         </div>
+
       </div>
+
     </section>
   );
 };

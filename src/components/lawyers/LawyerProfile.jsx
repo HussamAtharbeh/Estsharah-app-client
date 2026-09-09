@@ -1,11 +1,12 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { 
-  ChevronRight, MapPin, Star, Briefcase, FileText, Calendar, 
-  CheckCircle2, Building2, Users, Scale, ShieldAlert, HardHat, Home 
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import {
+  ChevronRight, MapPin, Star, Briefcase, FileText, Calendar,
+  CheckCircle2, Building2, Users, Scale, ShieldAlert, HardHat, Home
 } from 'lucide-react';
+import { cityLabel, specializationLabel } from '../../utils/labels';
 import '../../styles/componentsStyle/lawersStyle/LawyerProfile.css';
-
+import {User} from 'lucide-react';
 const specialtyIcons = {
   "قانون تجاري وشركات": Building2,
   "قانون تجاري": Building2,
@@ -18,10 +19,57 @@ const specialtyIcons = {
 };
 
 const LawyerProfile = () => {
-  const location = useLocation();
-  const lawyer = location.state?.lawyerData;
+  const { id } = useParams();
 
-  if (!lawyer) {
+  const [lawyer, setLawyer] = useState(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+  let cancelled = false;
+
+  const loadLawyer = async () => {
+    try {
+      const res = await fetch(
+  `http://localhost:5000/api/lawyers/${id}`
+);
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || 'حدث خطأ أثناء جلب بيانات المحامي');
+      }
+
+      if (!cancelled) {
+        setLawyer(data);
+      }
+    } catch (err) {
+      if (!cancelled) {
+        setError(err.message);
+      }
+    } finally {
+      if (!cancelled) {
+        setLoading(false);
+      }
+    }
+  };
+
+  loadLawyer();
+
+  return () => {
+    cancelled = true;
+  };
+}, [id]);
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '100px' }}>
+        <h2>جارٍ التحميل...</h2>
+      </div>
+    );
+  }
+
+  if (error || !lawyer) {
     return (
       <div style={{ textAlign: 'center', padding: '100px' }}>
         <h2>لم يتم العثور على بيانات المحامي</h2>
@@ -29,6 +77,8 @@ const LawyerProfile = () => {
       </div>
     );
   }
+
+  const specialtyText = specializationLabel(lawyer.specialty);
 
   return (
     <div className="lawyer-profile-page">
@@ -42,8 +92,20 @@ const LawyerProfile = () => {
           <div className="lp-header-content">
             <div className="lp-header-right">
               <div className="lp-image-wrapper">
-                <img src={lawyer.image} alt={lawyer.name} />
-                <div className="lp-verified-badge">
+
+{lawyer.image ? (
+  <img
+    src={lawyer.image}
+    alt={lawyer.name}
+    className="card-avatar"
+  />
+) : (
+  <div className="card-avatar">
+    <User size={40} />
+  </div>
+)}
+
+<div className="lp-verified-badge">
                   <CheckCircle2 size={16} className="lp-badge-icon" fill="#C9A86A" color="#ffffff" />
                   <span>موثق</span>
                 </div>
@@ -61,38 +123,38 @@ const LawyerProfile = () => {
                 </div>
 
                 <h1 className="lp-lawyer-name">المحامي {lawyer.name}</h1>
-                
+
                 <div className="lp-location-row">
                   <MapPin size={18} className="lp-gold-icon" />
-                  <span>{lawyer.spec} · {lawyer.city}</span>
+                  <span>{specialtyText} · {cityLabel(lawyer.city)}</span>
                 </div>
 
                 <div className="lp-stats-bar">
                   <div className="lp-stat-item">
                     <Star size={24} className="lp-gold-icon" fill="currentColor" />
                     <div className="lp-stat-text-col">
-                      <span className="lp-stat-val">{lawyer.rating}</span>
-                      <span className="lp-stat-label">({lawyer.reviews} تقييم)</span>
+                      <span className="lp-stat-val">{Number(lawyer.rating_avg ?? 0).toFixed(1)}</span>
+                      <span className="lp-stat-label">({lawyer.reviews_count} تقييم)</span>
                     </div>
                   </div>
 
                   <div className="lp-stat-item">
                     <Briefcase size={20} className="lp-white-icon" />
-                    <span className="lp-stat-val-inline">{lawyer.exp} سنة خبرة</span>
+                    <span className="lp-stat-val-inline">{lawyer.experience} سنة خبرة</span>
                   </div>
 
                   <div className="lp-stat-item">
                     <FileText size={20} className="lp-white-icon" />
-                    <span className="lp-stat-val-inline">{lawyer.cases} قضية مغلقة</span>
+                    <span className="lp-stat-val-inline">{lawyer.cases_count} قضية مغلقة</span>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="lp-header-left">
-              <Link to="/signin" className="lp-book-btn">
+              <Link to={`/client/consultations/book?lawyer=${lawyer.id}`} className="lp-book-btn">
                 <Calendar size={20} />
-                طلب الاستشارة — تبدأ من {lawyer.price} د.أ
+                طلب الاستشارة — تبدأ من {lawyer.min_price ?? '—'} د.أ
               </Link>
               <span className="lp-secure-text">استشارة آمنة ومباشرة مع المحامي</span>
             </div>
@@ -105,14 +167,15 @@ const LawyerProfile = () => {
           <div className="lp-section">
             <h2 className="lp-section-title">نبذة عن المحامي</h2>
             <p className="lp-bio-text">
-              محام متخصص في {lawyer.spec} مع خبرة تتجاوز {lawyer.exp} عاماً في المحاكم الأردنية. أتعامل مع القضايا بمهنية عالية. أهدف دائماً إلى تقديم حلول قانونية عملية وفعالة تساعد عملائي على تحقيق أهدافهم بأمان وثقة.
+              {lawyer.bio ||
+                `محام متخصص في ${specialtyText} مع خبرة تتجاوز ${lawyer.experience} عاماً في المحاكم الأردنية.`}
             </p>
           </div>
 
           <div className="lp-section">
             <h2 className="lp-section-title">التخصصات</h2>
             <div className="lp-tags-container">
-              
+
               {lawyer.specialties?.map((specialty, index) => {
                 const TagIcon = specialtyIcons[specialty] || Briefcase;
                 return (

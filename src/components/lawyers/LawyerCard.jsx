@@ -10,7 +10,9 @@ import {
   ArrowLeft,
   CheckCircle2
 } from 'lucide-react';
+import { cityLabel, specializationLabel } from '../../utils/labels';
 import '../../styles/componentsStyle/lawersStyle/LawyerCard.css';
+import {User} from 'lucide-react';
 
 const LawyerCard = ({ lawyer }) => {
   return (
@@ -24,11 +26,17 @@ const LawyerCard = ({ lawyer }) => {
         )}
 
         <div className="card-avatar-wrapper">
-          <img
-            src={lawyer.image}
-            alt={lawyer.name}
-            className="card-avatar"
-          />
+          {lawyer.image ? (
+  <img
+    src={lawyer.image}
+    alt={lawyer.name}
+    className="card-avatar"
+  />
+) : (
+  <div className="card-avatar">
+    <User size={40} />
+  </div>
+)}
           <CheckCircle2
             className="verified-badge"
             size={20}
@@ -42,7 +50,7 @@ const LawyerCard = ({ lawyer }) => {
         </h3>
 
         <p className="lawyer-spec">
-          {lawyer.spec}
+          {specializationLabel(lawyer.specialty)}
         </p>
 
         <div className="lawyer-rating">
@@ -51,32 +59,32 @@ const LawyerCard = ({ lawyer }) => {
             size={16}
           />
           <span className="rate-num">
-            {lawyer.rating}
+            {Number(lawyer.rating_avg ?? 0).toFixed(1)}
           </span>
           <span className="reviews-count">
-            ({lawyer.reviews} مراجعة)
+            ({lawyer.reviews_count ?? 0} مراجعة)
           </span>
         </div>
 
         <div className="lawyer-stats-grid">
           <div className="stat-item">
             <MapPin size={16} />
-            <span>{lawyer.city}</span>
+            <span>{cityLabel(lawyer.city)}</span>
           </div>
 
           <div className="stat-item">
             <Briefcase size={16} />
-            <span>{lawyer.exp} سنة خبرة</span>
+            <span>{lawyer.experience} سنة خبرة</span>
           </div>
 
           <div className="stat-item">
             <FileText size={16} />
-            <span>{lawyer.cases} قضية منجزة</span>
+            <span>{lawyer.cases_count} قضية منجزة</span>
           </div>
 
           <div className="stat-item">
             <Clock size={16} />
-            <span>{lawyer.time}</span>
+            <span>{lawyer.response_time || 'خلال 24 ساعة'}</span>
           </div>
         </div>
       </div>
@@ -84,7 +92,7 @@ const LawyerCard = ({ lawyer }) => {
       <div className="card-footer">
         <div className="price-section">
           <span className="price-num">
-            {lawyer.price}
+            {lawyer.min_price ?? '—'}
           </span>
 
           <span className="price-cur">
@@ -94,8 +102,7 @@ const LawyerCard = ({ lawyer }) => {
 
         <div className="actions-section">
           <Link
-            to="/lawyer/profile"
-            state={{ lawyerData: lawyer }}
+            to={`/lawyers/${lawyer.id}`}
             onClick={() => window.scrollTo(0, 0)}
             className="view-profile-btn"
           >

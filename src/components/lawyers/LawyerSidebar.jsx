@@ -1,6 +1,11 @@
 import React from 'react';
 import DashboardSidebar from '../shared/DashboardSidebar';
-import { FileText, MessageSquare, Settings, Globe } from 'lucide-react';
+import {
+  FileText,
+  MessageSquare,
+  Settings,
+  Globe
+} from 'lucide-react';
 
 const LawyerSidebar = ({ user }) => {
   const lawyerMenu = [

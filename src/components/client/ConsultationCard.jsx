@@ -1,17 +1,36 @@
 import React from 'react';
-import { AlertCircle, Star } from 'lucide-react';
+import {
+  AlertCircle,
+  Star,
+  X,
+  Video,
+  MapPin
+} from 'lucide-react';
+
+import {
+  CONSULTATION_STATUS_LABELS,
+  consultationStatusClass,
+  consultationTypeLabel,
+  formatDate,
+  formatPrice
+} from '../../utils/labels';
+
 import '../../styles/componentsStyle/clientStyle/ConsultationCard.css';
 
 const ConsultationCard = ({
   consultation,
   onComplaint,
-  onRating
+  onRating,
+  onCancel
 }) => {
-  const statusClass = consultation.status === 'نشطة'
-    ? 'active'
-    : consultation.status === 'مكتملة'
-      ? 'completed'
-      : 'cancelled';
+  const statusClass = consultationStatusClass(
+    consultation.status
+  );
+
+  const isCancellable = [
+    'pending',
+    'confirmed'
+  ].includes(consultation.status);
 
   return (
     <article className="consultation-card">
@@ -19,14 +38,18 @@ const ConsultationCard = ({
       <div className="consultation-info">
 
         <div className="consultation-top-row">
-  <span className="consultation-id">
-    {consultation.id}
-  </span>
 
-  <span className={`consultation-status ${statusClass}`}>
-    {consultation.status}
-  </span>
-</div>
+          <span className="consultation-id">
+            IST-{String(consultation.id).padStart(4, '0')}
+          </span>
+
+          <span
+            className={`consultation-status ${statusClass}`}
+          >
+            {CONSULTATION_STATUS_LABELS[consultation.status]}
+          </span>
+
+        </div>
 
         <h2 className="consultation-title">
           {consultation.title}
@@ -34,34 +57,81 @@ const ConsultationCard = ({
 
         <div className="consultation-details">
 
-          <span>{consultation.lawyer}</span>
-          <span>•</span>
-                    <span>{consultation.type}</span>
+          <span>
+            المحامي {consultation.lawyer_name}
+          </span>
 
           <span>•</span>
-                    <span>{consultation.date}</span>
+
+          <span>
+            {consultationTypeLabel(consultation.type)}
+          </span>
 
           <span>•</span>
-          <strong>{consultation.price}</strong>
+
+          <span>
+            {formatDate(consultation.scheduled_date)}
+            {' — '}
+            {consultation.scheduled_time}
+          </span>
+
+          <span>•</span>
+
+          <strong>
+            {formatPrice(consultation.price)}
+          </strong>
 
         </div>
+
+        {consultation.meeting_link && (
+          <a
+            className="consultation-link"
+            href={consultation.meeting_link}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Video size={15} />
+            <span>رابط الاجتماع</span>
+          </a>
+        )}
+
+        {consultation.office_location && (
+          <a
+            className="consultation-link"
+            href={consultation.office_location}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <MapPin size={15} />
+            <span>موقع المكتب</span>
+          </a>
+        )}
 
       </div>
 
       <div className="consultation-actions">
 
+        {consultation.status === 'completed' &&
+          !consultation.rated && (
+            <button
+              className="rating-btn"
+              onClick={() => onRating(consultation)}
+            >
+              <span>قيّم المحامي</span>
+              <Star size={16} />
+            </button>
+          )}
 
-
-{consultation.status === 'مكتملة' && (
+        {isCancellable && (
           <button
-            className="rating-btn"
-            onClick={() => onRating(consultation)}
+            className="cancel-btn"
+            onClick={() => onCancel(consultation)}
           >
-            <span>قيّم المحامي</span>
-            <Star size={16} />
+            <span>إلغاء</span>
+            <X size={16} />
           </button>
-        
         )}
+
         <button
           className="complaint-btn"
           onClick={() => onComplaint(consultation)}
@@ -69,7 +139,6 @@ const ConsultationCard = ({
           <span>شكوى</span>
           <AlertCircle size={16} />
         </button>
-
 
       </div>
 

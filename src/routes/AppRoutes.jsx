@@ -1,6 +1,8 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+import ProtectedRoute from '../components/shared/ProtectedRoute';
+
 import Home from '../pages/vistors/Home';
 import Lawyers from '../pages/vistors/LawyersList';
 import Services from '../pages/vistors/Services';
@@ -35,8 +37,10 @@ import ManageLawyers from '../pages/admin/ManageLawyers';
 export const AppRoutes = () => {
   return (
     <Routes>
+
       <Route path="/" element={<Home />} />
       <Route path="/lawyers" element={<Lawyers />} />
+      <Route path="/lawyers/:id" element={<LawyerProfile />} />
       <Route path="/services" element={<Services />} />
       <Route path="/about" element={<About />} />
       <Route path="/blog" element={<Blog />} />
@@ -47,29 +51,96 @@ export const AppRoutes = () => {
       <Route path="/signup/client" element={<SignUpClient />} />
       <Route path="/signup/lawyer" element={<SignUpLawyer />} />
 
-      <Route path="/lawyer/profile" element={<LawyerProfile />} />
+     {/* <Route path="/lawyer/profile" element={<LawyerProfile />} /> */}
 
-      <Route path="/client" element={<ClientDashboard />}>
+
+      <Route
+        path="/client"
+        element={
+          <ProtectedRoute role="client">
+            <ClientDashboard />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Navigate to="consultations" replace />} />
-        <Route path="consultations" element={<MyConsultations />} />
-        <Route path="consultations/book" element={<BookConsultation />} />
-        <Route path="payments" element={<Payments />} />
-        <Route path="settings" element={<Settings />} />
+
+        <Route
+          path="consultations"
+          element={<MyConsultations />}
+        />
+
+        <Route
+          path="consultations/book"
+          element={<BookConsultation />}
+        />
+
+        <Route
+          path="payments"
+          element={<Payments />}
+        />
+
+        <Route
+          path="settings"
+          element={<Settings />}
+        />
       </Route>
 
-      <Route path="/lawyer" element={<LawyerDashboard />}>
+      <Route
+        path="/lawyer"
+        element={
+          <ProtectedRoute role="lawyer">
+            <LawyerDashboard />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Navigate to="requests" replace />} />
-        <Route path="requests" element={<LawyerOrders />} />
-        <Route path="consultations" element={<LawyerConsultations />} />
-        <Route path="settings" element={<LawyerSettings />} />
+
+        <Route
+          path="requests"
+          element={<LawyerOrders />}
+        />
+
+        <Route
+          path="consultations"
+          element={<LawyerConsultations />}
+        />
+
+        <Route
+          path="settings"
+          element={<LawyerSettings />}
+        />
       </Route>
-<Route path="/admin" element={<AdminDashboard />}>
-  <Route index element={<Navigate to="lawyers" replace />} />
-  <Route path="lawyers" element={<ManageLawyers />} />
-  <Route path="clients" element={<ManageClients />} />
-  <Route path="complaints" element={<Complaints />} />
-</Route>
+
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute role="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Navigate to="lawyers" replace />} />
+
+        <Route
+          path="lawyers"
+          element={<ManageLawyers />}
+        />
+
+        <Route
+          path="clients"
+          element={<ManageClients />}
+        />
+
+        <Route
+          path="complaints"
+          element={<Complaints />}
+        />
+      </Route>
+
       <Route path="*" element={<NotFound />} />
+
     </Routes>
   );
 };
+
+export default AppRoutes;
