@@ -236,13 +236,6 @@ This allows the same frontend code to work in both development and production en
 ```text
 http://localhost:5000/api
 ```
-
-### Production
-
-```text
-https://estsharah-app-server-production.up.railway.app/api
-```
-
 ---
 
 ## 🔐 Environment Variables
