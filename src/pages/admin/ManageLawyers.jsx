@@ -165,8 +165,8 @@ const ManageLawyers = () => {
     return;
   }
 
-  const documentUrl = `http://localhost:5000${lawyer.document_url}`;
-
+//   const documentUrl = `http://localhost:5000${lawyer.document_url}`;
+const documentUrl = `${API_URL.replace('/api', '')}${lawyer.document_url}`;
   window.open(documentUrl, '_blank', 'noopener,noreferrer');
 };
 
