@@ -3,6 +3,7 @@ import { Award, AlertCircle } from 'lucide-react';
 import LawyerCard from '../../components/lawyers/LawyerCard';
 import LawyerFilterBar from '../../components/lawyers/LawyerFilterBar';
 import '../../styles/pagesStyle/vistorsStyle/Lawyers.css';
+import {API_URL} from "../../config"
 
 const LawyersList = () => {
   const [lawyers, setLawyers] = useState([]);
@@ -14,7 +15,6 @@ const LawyersList = () => {
   const [city, setCity] = useState('');
   const [sortBy, setSortBy] = useState('rating');
   const [isAvailableOnly, setIsAvailableOnly] = useState(false);
-
   useEffect(() => {
     let cancelled = false;
 
@@ -31,7 +31,7 @@ const LawyersList = () => {
       if (isAvailableOnly) params.set('availableOnly', 'true');
 
       try {
-        const res = await fetch(`http://localhost:5000/api/lawyers?${params.toString()}`);
+        const res = await fetch(`${API_URL}/lawyers?${params.toString()}`);
         const data = await res.json();
 
         if (!res.ok) {

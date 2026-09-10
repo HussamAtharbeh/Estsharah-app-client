@@ -15,7 +15,7 @@ import {
   initialOf
 } from '../../utils/labels';
 import '../../styles/pagesStyle/lawyerStyle/LawyerOrders.css';
-
+import {API_URL} from "../../config"
 const LawyerOrders = () => {
   const { profile } = useOutletContext();
 
@@ -32,7 +32,7 @@ const LawyerOrders = () => {
       const token = getToken();
 
       const ordersResponse = await fetch(
-        'http://localhost:5000/api/consultations/lawyer/orders',
+        `${API_URL}/consultations/lawyer/orders`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -49,7 +49,7 @@ const LawyerOrders = () => {
       }
 
       const statsResponse = await fetch(
-        'http://localhost:5000/api/lawyers/me/stats',
+        `${API_URL}/lawyers/me/stats`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -85,9 +85,9 @@ const LawyerOrders = () => {
       let url = '';
 
       if (action === 'accept') {
-        url = `http://localhost:5000/api/consultations/${orderId}/accept`;
+        url = `${API_URL}/consultations/${orderId}/accept`;
       } else {
-        url = `http://localhost:5000/api/consultations/${orderId}/reject`;
+        url = `${API_URL}/consultations/${orderId}/reject`;
       }
 
       const response = await fetch(url, {

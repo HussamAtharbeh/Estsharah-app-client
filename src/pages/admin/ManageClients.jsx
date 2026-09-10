@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getToken } from '../../utils/auth';
 import { USER_STATUS_LABELS, initialOf } from '../../utils/labels';
-
+import {API_URL} from "../../config"
 const ManageClients = () => {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ const ManageClients = () => {
         const token = getToken();
 
         const response = await fetch(
-          'http://localhost:5000/api/users/admin/clients',
+        `${API_URL}/users/admin/clients`,
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -74,8 +74,8 @@ const ManageClients = () => {
     return runAction(async () => {
       const endpoint =
         client.status === 'active'
-          ? `http://localhost:5000/api/users/${client.id}/suspend`
-          : `http://localhost:5000/api/users/${client.id}/activate`;
+          ? `${API_URL}/users/${client.id}/suspend`
+          : `${API_URL}/users/${client.id}/activate`;
 
       const response = await fetch(endpoint, {
         method: 'PUT',
@@ -105,7 +105,7 @@ const ManageClients = () => {
 
     runAction(async () => {
       const response = await fetch(
-        `http://localhost:5000/api/users/${client.id}`,
+        `${API_URL}/users/${client.id}`,
         {
           method: 'DELETE',
           headers: {

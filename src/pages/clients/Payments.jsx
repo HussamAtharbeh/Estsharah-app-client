@@ -17,7 +17,7 @@ import {
 } from '../../utils/labels';
 
 import '../../styles/pagesStyle/clientStyle/Payments.css';
-
+import {API_URL} from "../../config"
 const getStatusIcon = (status) => {
   return status === 'paid'
     ? <CircleCheck size={15} />
@@ -38,7 +38,7 @@ const Payments = () => {
         const token = getToken();
 
         const response = await fetch(
-          'http://localhost:5000/api/payments/me',
+          `${API_URL}/payments/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`

@@ -17,7 +17,7 @@ useEffect(() => {
             lang: 'ar',
             country: 'jo',
             max: 10,
-            apikey: 'f075f73908e663b14cc19581c666fd5e'
+            apikey: import.meta.env.VITE_GNEWS_API_KEY
           }
         }
       );

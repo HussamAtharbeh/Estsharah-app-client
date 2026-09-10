@@ -4,7 +4,7 @@ import { Star, X } from 'lucide-react';
 import { getToken } from '../../utils/auth';
 
 import '../../styles/componentsStyle/clientStyle/RatingModal.css';
-
+import {API_URL} from "../../config"
 const RatingModal = ({ consultation, onClose, onSaved }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -26,7 +26,7 @@ const RatingModal = ({ consultation, onClose, onSaved }) => {
       const token = getToken();
 
       const response = await fetch(
-        `http://localhost:5000/api/consultations/${consultation.id}/rating`,
+        `${API_URL}/consultations/${consultation.id}/rating`,
         {
           method: 'POST',
           headers: {

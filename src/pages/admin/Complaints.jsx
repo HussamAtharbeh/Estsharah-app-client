@@ -7,7 +7,7 @@ import {
   ROLE_LABELS,
   formatDate
 } from '../../utils/labels';
-
+import {API_URL} from "../../config"
 const Complaints = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ const Complaints = () => {
         const token = getToken();
 
         const response = await fetch(
-          'http://localhost:5000/api/complaints',
+          `${API_URL}/complaints`,
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -72,7 +72,7 @@ const Complaints = () => {
       const token = getToken();
 
       const response = await fetch(
-        `http://localhost:5000/api/complaints/${complaint.id}/resolve`,
+        `${API_URL}/complaints/${complaint.id}/resolve`,
         {
           method: 'PUT',
           headers: {
@@ -106,7 +106,7 @@ const Complaints = () => {
       const token = getToken();
 
       const response = await fetch(
-        `http://localhost:5000/api/complaints/${complaint.id}`,
+        `${API_URL}/complaints/${complaint.id}`,
         {
           method: 'DELETE',
           headers: {

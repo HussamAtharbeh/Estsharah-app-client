@@ -7,6 +7,7 @@ import {
 import { cityLabel, specializationLabel } from '../../utils/labels';
 import '../../styles/componentsStyle/lawersStyle/LawyerProfile.css';
 import {User} from 'lucide-react';
+import {API_URL} from "../../config"
 const specialtyIcons = {
   "قانون تجاري وشركات": Building2,
   "قانون تجاري": Building2,
@@ -31,7 +32,7 @@ const LawyerProfile = () => {
   const loadLawyer = async () => {
     try {
       const res = await fetch(
-  `http://localhost:5000/api/lawyers/${id}`
+  `${API_URL}/lawyers/${id}`
 );
 
       const data = await res.json();

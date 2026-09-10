@@ -16,7 +16,7 @@ import Stats from '../../components/shared/Stats';
 import { HowItWorks } from '../../components/shared/HowItWorks';
 
 import { getUser, isLoggedIn, homePathFor } from '../../utils/auth';
-
+import {API_URL} from "../../config"
 const FEATURED_LAWYERS = [
   {
     id: 1,
@@ -67,7 +67,7 @@ const Home = () => {
     const fetchLawyersCount = async () => {
       try {
         const response = await fetch(
-          'http://localhost:5000/api/lawyers/count'
+          `${API_URL}/lawyers/count`
         );
 
         const data = await response.json();

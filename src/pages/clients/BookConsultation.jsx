@@ -13,7 +13,7 @@ import { CONSULTATION_TYPES } from '../../utils/labels';
 import { availableDays } from '../../data/bookingData';
 
 import '../../styles/pagesStyle/clientStyle/BookConsultation.css';
-
+ import {API_URL} from "../../config"
 const BookConsultation = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -52,7 +52,7 @@ const BookConsultation = () => {
         const token = getToken();
 
         const response = await fetch(
-          `http://localhost:5000/api/lawyers/${lawyerId}`,
+          `${API_URL}/lawyers/${lawyerId}`,
           {
             headers: token
               ? {
@@ -194,7 +194,7 @@ const BookConsultation = () => {
       const token = getToken();
 
       const consultationResponse = await fetch(
-        'http://localhost:5000/api/consultations',
+        `${API_URL}/consultations`,
         {
           method: 'POST',
           headers: {
@@ -224,7 +224,7 @@ const BookConsultation = () => {
       }
 
       const paymentResponse = await fetch(
-        'http://localhost:5000/api/payments',
+        `${API_URL}/payments`,
         {
           method: 'POST',
           headers: {

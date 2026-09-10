@@ -10,7 +10,7 @@ import { getToken } from '../../utils/auth';
 
 import '../../styles/pagesStyle/clientStyle/MyConsultations.css';
 import '../../styles/componentsStyle/clientStyle/ConsultationCard.css';
-
+import {API_URL} from "../../config"
 const MyConsultations = () => {
   const [consultations, setConsultations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +36,7 @@ const MyConsultations = () => {
         const token = getToken();
 
         const response = await fetch(
-          'http://localhost:5000/api/consultations/me',
+          `${API_URL}/consultations/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -106,7 +106,7 @@ const MyConsultations = () => {
       const token = getToken();
 
       const response = await fetch(
-        `http://localhost:5000/api/consultations/${consultation.id}/cancel`,
+        `${API_URL}/consultations/${consultation.id}/cancel`,
         {
           method: 'PUT',
           headers: {

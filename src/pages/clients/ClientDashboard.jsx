@@ -5,7 +5,7 @@ import ClientSidebar from '../../components/client/ClientSidebar';
 import { getUser, getToken } from '../../utils/auth';
 
 import '../../styles/pagesStyle/clientStyle/ClientDashboard.css';
-
+import {API_URL} from "../../config"
 const ClientDashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ const ClientDashboard = () => {
         const token = getToken();
 
         const response = await fetch(
-          'http://localhost:5000/api/users/me',
+          `${API_URL}/users/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`
