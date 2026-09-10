@@ -5,7 +5,7 @@ import LawyerSidebar from '../../components/lawyers/LawyerSidebar';
 import { getToken, getUser } from '../../utils/auth';
 
 import '../../styles/pagesStyle/lawyerStyle/LawyerDashboard.css';
-
+import {API_URL} from "../../config"
 const LawyerDashboard = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ const LawyerDashboard = () => {
         const token = getToken();
 
         const response = await fetch(
-          'http://localhost:5000/api/lawyers/me',
+          `${API_URL}/lawyers/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`

@@ -8,7 +8,7 @@ import { saveAuth } from '../../utils/auth';
 import { CITIES, SPECIALIZATIONS } from '../../utils/labels';
 import '../../styles/pagesStyle/loginStyle/SignUp.css';
 import '../../styles/pagesStyle/loginStyle/SignUpLawyer.css';
-
+import {API_URL} from "../../config"
 const SignUpLawyer = () => {
   const [step, setStep] = useState(1);
 
@@ -95,7 +95,7 @@ const SignUpLawyer = () => {
     formDataToSend.append('document', file);
 
     const res = await fetch(
-      'http://localhost:5000/api/auth/signup/lawyer',
+      `${API_URL}/auth/signup/lawyer`,
       {
         method: 'POST',
         body: formDataToSend

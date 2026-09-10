@@ -22,8 +22,8 @@ const CONTACT_INFO = [
     id: 3,
     icon: Phone,
     title: 'اتصل بنا',
-    value: '079517043',
-    link: 'tel:079517043'
+    value: '0795170439',
+    link: 'tel:0795170439'
   }
 ];
 

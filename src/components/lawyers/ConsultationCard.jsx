@@ -17,7 +17,7 @@ import {
 
 import { getToken } from '../../utils/auth';
 import '../../styles/componentsStyle/lawersStyle/ConsultationCard.css';
-
+import {API_URL} from "../../config"
 const ConsultationCard = ({ consultation, onOpenModal, onComplete }) => {
   const {
     id,
@@ -42,7 +42,7 @@ const ConsultationCard = ({ consultation, onOpenModal, onComplete }) => {
       const token = getToken();
 
       const res = await fetch(
-        `http://localhost:5000/api/consultations/${id}/complete`,
+        `${API_URL}/consultations/${id}/complete`,
         {
           method: 'PUT',
           headers: {

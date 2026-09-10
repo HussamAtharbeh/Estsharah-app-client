@@ -8,7 +8,7 @@ import { saveAuth } from '../../utils/auth';
 import { CITIES } from '../../utils/labels';
 import '../../styles/pagesStyle/loginStyle/SignUp.css';
 import '../../styles/pagesStyle/loginStyle/SignUpClient.css';
-
+import {API_URL} from "../../config"
 const SignUpClient = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -32,7 +32,7 @@ const SignUpClient = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/signup/client', {
+      const res = await fetch(`${API_URL}/auth/signup/client`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

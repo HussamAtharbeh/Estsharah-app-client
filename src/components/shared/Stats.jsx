@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import {API_URL} from "../../config"
 const Stats = () => {
   const [lawyersCount, setLawyersCount] = useState(0);
   const [consultationsCount, setConsultationsCount] = useState(0);
@@ -8,7 +8,7 @@ const Stats = () => {
     const fetchStats = async () => {
       try {
         const lawyersResponse = await fetch(
-          'http://localhost:5000/api/lawyers/count'
+          `${API_URL}/lawyers/count`
         );
 
         const lawyersData = await lawyersResponse.json();
@@ -22,7 +22,7 @@ const Stats = () => {
         setLawyersCount(Number(lawyersData.count));
 
         const consultationsResponse = await fetch(
-          'http://localhost:5000/api/consultations/count'
+          `${API_URL}/consultations/count`
         );
 
         const consultationsData = await consultationsResponse.json();

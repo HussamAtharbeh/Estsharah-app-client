@@ -16,7 +16,7 @@ import {
 import { getToken } from '../../utils/auth';
 import { CITIES, SPECIALIZATIONS } from '../../utils/labels';
 import '../../styles/pagesStyle/lawyerStyle/LawyerSettings.css';
-
+import {API_URL} from "../../config"
 const CONSULTATION_TYPES = [
   { key: 'phone', label: 'استشارة هاتفية', icon: Phone },
   { key: 'video', label: 'استشارة فيديو', icon: Video },
@@ -158,7 +158,7 @@ const Settings = () => {
       const token = getToken();
 
       const response = await fetch(
-        'http://localhost:5000/api/lawyers/me',
+        `${API_URL}/lawyers/me`,
         {
           method: 'PUT',
           headers: {

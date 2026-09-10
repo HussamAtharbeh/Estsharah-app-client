@@ -7,7 +7,7 @@ import PhoneModal from '../../components/lawyers/consultationModals/PhoneModal';
 import { getToken } from '../../utils/auth';
 import '../../styles/pagesStyle/lawyerStyle/LawyerConsultations.css';
 import '../../styles/pagesStyle/lawyerStyle/LawyerConsultationModals.css';
-
+import {API_URL} from "../../config"
 const Consultations = () => {
   const [filter, setFilter] = useState('active');
   const [consultations, setConsultations] = useState([]);
@@ -28,7 +28,7 @@ const Consultations = () => {
       const token = getToken();
 
       const response = await fetch(
-        `http://localhost:5000/api/consultations/lawyer/me?status=${filter}`,
+        `${API_URL}/consultations/lawyer/me?status=${filter}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -93,7 +93,7 @@ const Consultations = () => {
       let body = {};
 
       if (actionType === 'complaint') {
-        url = 'http://localhost:5000/api/complaints';
+        url = `${API_URL}/complaints`;
         method = 'POST';
 
         body = {
@@ -104,7 +104,7 @@ const Consultations = () => {
       }
 
       if (actionType === 'link') {
-        url = `http://localhost:5000/api/consultations/${selectedConsultation.id}/meeting-link`;
+        url = `${API_URL}/consultations/${selectedConsultation.id}/meeting-link`;
 
         body = {
           link: inputValue
@@ -112,7 +112,7 @@ const Consultations = () => {
       }
 
       if (actionType === 'location') {
-        url = `http://localhost:5000/api/consultations/${selectedConsultation.id}/office-location`;
+        url = `${API_URL}/consultations/${selectedConsultation.id}/office-location`;
 
         body = {
           location: inputValue
@@ -169,7 +169,7 @@ const Consultations = () => {
       const token = getToken();
 
       const response = await fetch(
-        `http://localhost:5000/api/consultations/${consultation.id}/complete`,
+        `${API_URL}/consultations/${consultation.id}/complete`,
         {
           method: 'PUT',
           headers: {

@@ -6,7 +6,7 @@ import {
   initialOf,
   specializationLabel
 } from '../../utils/labels';
-
+import {API_URL} from "../../config"
 const ManageLawyers = () => {
   const [lawyers, setLawyers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,7 +27,7 @@ const ManageLawyers = () => {
         const token = getToken();
 
         const response = await fetch(
-          'http://localhost:5000/api/lawyers/admin/all',
+          `${API_URL}/lawyers/admin/all`,
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -84,7 +84,7 @@ const ManageLawyers = () => {
 
     runAction(async () => {
       const response = await fetch(
-        `http://localhost:5000/api/lawyers/${lawyer.id}/verify`,
+        `${API_URL}/lawyers/${lawyer.id}/verify`,
         {
           method: 'PUT',
           headers: {
@@ -109,8 +109,8 @@ const ManageLawyers = () => {
     runAction(async () => {
       const endpoint =
         lawyer.status === 'active'
-          ? `http://localhost:5000/api/lawyers/${lawyer.id}/suspend`
-          : `http://localhost:5000/api/lawyers/${lawyer.id}/activate`;
+          ? `${API_URL}/lawyers/${lawyer.id}/suspend`
+          : `${API_URL}/lawyers/${lawyer.id}/activate`;
 
       const response = await fetch(endpoint, {
         method: 'PUT',
@@ -140,7 +140,7 @@ const ManageLawyers = () => {
 
     runAction(async () => {
       const response = await fetch(
-        `http://localhost:5000/api/lawyers/${lawyer.id}`,
+        `${API_URL}/lawyers/${lawyer.id}`,
         {
           method: 'DELETE',
           headers: {

@@ -13,7 +13,7 @@ import {
 import { CITIES } from '../../utils/labels';
 
 import '../../styles/pagesStyle/clientStyle/Settings.css';
-
+import {API_URL} from "../../config"
 const Settings = () => {
   const user = getUser();
 
@@ -57,7 +57,7 @@ const Settings = () => {
       const token = getToken();
 
       const response = await fetch(
-        'http://localhost:5000/api/users/me',
+        `${API_URL}/users/me`,
         {
           method: 'PUT',
           headers: {

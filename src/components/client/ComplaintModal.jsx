@@ -4,7 +4,7 @@ import { X, AlertCircle } from 'lucide-react';
 import { getToken } from '../../utils/auth';
 
 import '../../styles/componentsStyle/clientStyle/ComplaintModal.css';
-
+import {API_URL} from "../../config"
 const COMPLAINT_TYPES = [
   'عدم الاحترافية',
   'معلومات خاطئة',
@@ -35,7 +35,7 @@ const ComplaintModal = ({ consultation, onClose, onSaved }) => {
       const token = getToken();
 
       const response = await fetch(
-        'http://localhost:5000/api/complaints',
+        `${API_URL}/complaints`,
         {
           method: 'POST',
           headers: {
