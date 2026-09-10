@@ -8,28 +8,19 @@ const Blog = () => {
   const [error, setError] = useState('');
 useEffect(() => {
   const getPosts = async () => {
-    try {
-      const response = await axios.get(
-        'https://gnews.io/api/v4/search',
-        {
-          params: {
-            q: 'الأردن',
-            lang: 'ar',
-            country: 'jo',
-            max: 10,
-            apikey: import.meta.env.VITE_GNEWS_API_KEY
-          }
-        }
-      );
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/news`
+    );
 
-      setPosts(response.data.articles);
-      setLoading(false);
-    } catch (error) {
-      setError('حدث خطأ أثناء جلب المقالات');
-      setLoading(false);
-    }
-  };
-
+    setPosts(response.data.articles);
+    setLoading(false);
+  } catch (error) {
+    console.error(error);
+    setError("حدث خطأ أثناء جلب المقالات");
+    setLoading(false);
+  }
+};
   const timer = setTimeout(getPosts, 1500);
 
   return () => clearTimeout(timer);
