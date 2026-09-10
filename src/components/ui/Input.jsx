@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/componentsStyle/uiStyle/Input.css';
+import '../../styles/componentsStyle/UiStyle/Input.css';
 
 export const Input = ({ label, icon: Icon, ...props }) => {
   return (
